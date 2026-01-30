@@ -1,4 +1,31 @@
 <resources>
+    <style name="Theme.Cuisine" parent="Base.Theme.Cuisine">
+        <!-- Display Text Appearances -->
+        <item name="textAppearanceDisplayLarge">@style/TextAppearance.Cuisine.DisplayLarge</item>
+        <item name="textAppearanceDisplayMedium">@style/TextAppearance.Cuisine.DisplayMedium</item>
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.Cuisine.DisplaySmall</item>
+
+        <!-- Headline Text Appearances -->
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.Cuisine.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.Cuisine.HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Cuisine.HeadlineSmall</item>
+
+        <!-- Title Text Appearances -->
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.Cuisine.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Cuisine.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/TextAppearance.Cuisine.TitleSmall</item>
+
+        <!-- Body Text Appearances -->
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.Cuisine.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.Cuisine.BodyMedium</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.Cuisine.BodySmall</item>
+
+        <!-- Label Text Appearances -->
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.Cuisine.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.Cuisine.LabelMedium</item>
+        <item name="textAppearanceLabelSmall">@style/TextAppearance.Cuisine.LabelSmall</item>
+    </style>
+
     <style name="Base.Theme.Cuisine" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
