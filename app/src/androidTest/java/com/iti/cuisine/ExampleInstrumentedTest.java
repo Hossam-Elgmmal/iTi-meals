@@ -1,4 +1,4 @@
-package com.iti.meals;
+package com.iti.cuisine;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.iti.meals", appContext.getPackageName());
+        assertEquals("com.iti.cuisine", appContext.getPackageName());
     }
 }

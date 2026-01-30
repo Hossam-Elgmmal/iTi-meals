@@ -1,4 +1,4 @@
-package com.iti.meals;
+package com.iti.cuisine;
 
 import org.junit.Test;
 
