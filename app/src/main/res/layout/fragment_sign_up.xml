@@ -2,10 +2,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/loginFragment"
+    android:id="@+id/signUpFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.LoginFragment">
+    tools:context=".sign_up.SignUpFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/welcome_back"
+            android:text="@string/create_account"
             app:layout_constraintStart_toStartOf="@id/left_guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,9 +40,41 @@
             style="@style/TextAppearance.Cuisine.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fuel_your_day_with_a_perfectly_planned_meal"
+            android:text="@string/join_the_meal_planning_journey"
             app:layout_constraintStart_toStartOf="@id/left_guideline"
             app:layout_constraintTop_toBottomOf="@id/materialTextView" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView7"
+            style="@style/TextAppearance.Cuisine.TitleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/username"
+            app:layout_constraintStart_toStartOf="@id/left_guideline"
+            app:layout_constraintTop_toBottomOf="@id/materialTextView2" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/name_text_input_layout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:helperText="@string/username_must_be_at_least_3_characters"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="@id/right_guideline"
+            app:layout_constraintStart_toStartOf="@id/left_guideline"
+            app:layout_constraintTop_toBottomOf="@id/materialTextView7"
+            app:startIconDrawable="@drawable/ic_username"
+            app:startIconTint="@color/md_theme_onPrimaryContainer">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_username"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/materialTextView3"
@@ -52,14 +84,14 @@
             android:layout_marginTop="16dp"
             android:text="@string/email"
             app:layout_constraintStart_toStartOf="@id/left_guideline"
-            app:layout_constraintTop_toBottomOf="@id/materialTextView2" />
+            app:layout_constraintTop_toBottomOf="@id/name_text_input_layout" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_text_input_layout"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:helperText="@string/enter_a_valid_email"
+            app:helperText="@string/email_must_be_valid"
             app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="@id/right_guideline"
             app:layout_constraintStart_toStartOf="@id/left_guideline"
@@ -93,7 +125,7 @@
             app:endIconDrawable="@drawable/ic_password_toggle"
             app:endIconMode="password_toggle"
             app:endIconTint="@color/md_theme_onBackground"
-            app:helperText="Password must be at least 8 characters and include one uppercase letter, one lowercase letter, and one number."
+            app:helperText="@string/password_must_be_at_least_8_characters"
             app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="@id/right_guideline"
             app:layout_constraintStart_toStartOf="@id/left_guideline"
@@ -111,19 +143,41 @@
 
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/forgot_password_text"
-            style="@style/TextAppearance.Cuisine.LabelLarge"
+            android:id="@+id/materialTextView8"
+            style="@style/TextAppearance.Cuisine.TitleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="@string/forgot_password"
-            android:textColor="@color/md_theme_primary"
-            app:layout_constraintEnd_toStartOf="@id/right_guideline"
+            android:text="@string/confirm_password"
+            app:layout_constraintStart_toStartOf="@id/left_guideline"
             app:layout_constraintTop_toBottomOf="@id/password_text_input_layout" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/confirm_password_text_input_layout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:endIconDrawable="@drawable/ic_password_toggle"
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/md_theme_onBackground"
+            app:helperText="@string/passwords_must_match"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="@id/right_guideline"
+            app:layout_constraintStart_toStartOf="@id/left_guideline"
+            app:layout_constraintTop_toBottomOf="@id/materialTextView8"
+            app:startIconDrawable="@drawable/ic_pass"
+            app:startIconTint="@color/md_theme_onPrimaryContainer">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/re_enter_password"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/login_btn"
+            android:id="@+id/sign_up_btn"
             style="@style/Widget.Material3.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -132,7 +186,7 @@
             android:textAppearance="@style/TextAppearance.Cuisine.TitleLarge"
             app:layout_constraintEnd_toStartOf="@id/right_guideline"
             app:layout_constraintStart_toStartOf="@id/left_guideline"
-            app:layout_constraintTop_toBottomOf="@id/forgot_password_text" />
+            app:layout_constraintTop_toBottomOf="@id/confirm_password_text_input_layout" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/materialTextView5"
@@ -140,9 +194,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/don_t_have_an_account"
+            android:text="@string/already_have_an_account"
             app:layout_constraintStart_toStartOf="@id/left_guideline"
-            app:layout_constraintTop_toBottomOf="@id/login_btn" />
+            app:layout_constraintTop_toBottomOf="@id/sign_up_btn" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/register_text"
@@ -150,7 +204,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="@string/register_now"
+            android:text="@string/log_in_now"
             android:textColor="@color/md_theme_primary"
             app:layout_constraintBaseline_toBaselineOf="@id/materialTextView5"
             app:layout_constraintStart_toEndOf="@id/materialTextView5" />

@@ -14,4 +14,16 @@
     <string name="or">Or</string>
     <string name="continue_with_google">Continue with Google</string>
     <string name="continue_as_a_guest">Continue as a guest</string>
+    <string name="create_account">Create Account</string>
+    <string name="join_the_meal_planning_journey">Join the meal planning journey</string>
+    <string name="username">Username</string>
+    <string name="enter_username">Enter username</string>
+    <string name="username_must_be_at_least_3_characters">Username must be at least 3 characters</string>
+    <string name="password_must_be_at_least_8_characters">Password must be at least 8 characters and include one uppercase letter, one lowercase letter, and one number.</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="passwords_must_match">Passwords must match</string>
+    <string name="re_enter_password">Re-enter password</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="log_in_now">Log in Now!</string>
+    <string name="email_must_be_valid">Email must be valid</string>
 </resources>
