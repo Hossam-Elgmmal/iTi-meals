@@ -63,4 +63,10 @@ public class SplashFragment extends Fragment implements SplashPresenter.SplashVi
                 3000
         );
     }
+
+    @Override
+    public void onDestroyView() {
+        handler.removeCallbacksAndMessages(null);
+        super.onDestroyView();
+    }
 }
