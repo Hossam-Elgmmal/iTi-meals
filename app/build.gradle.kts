@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.auth)
 
     // room
     implementation(libs.room.runtime)
