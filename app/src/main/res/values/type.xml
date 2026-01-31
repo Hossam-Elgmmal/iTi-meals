@@ -13,27 +13,27 @@
     </style>
 
     <style name="TextAppearance.Cuisine.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
-        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="fontFamily">@font/nunito_bold</item>
     </style>
 
     <style name="TextAppearance.Cuisine.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
-        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="fontFamily">@font/nunito_bold</item>
     </style>
 
     <style name="TextAppearance.Cuisine.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
-        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="fontFamily">@font/nunito_bold</item>
     </style>
 
     <style name="TextAppearance.Cuisine.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
-        <item name="fontFamily">@font/nunito_regular</item>
+        <item name="fontFamily">@font/nunito_semibold</item>
     </style>
 
     <style name="TextAppearance.Cuisine.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
-        <item name="fontFamily">@font/nunito_medium</item>
+        <item name="fontFamily">@font/nunito_semibold</item>
     </style>
 
     <style name="TextAppearance.Cuisine.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
-        <item name="fontFamily">@font/nunito_medium</item>
+        <item name="fontFamily">@font/nunito_semibold</item>
     </style>
 
     <style name="TextAppearance.Cuisine.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
@@ -49,14 +49,14 @@
     </style>
 
     <style name="TextAppearance.Cuisine.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
-        <item name="fontFamily">@font/nunito_medium</item>
+        <item name="fontFamily">@font/nunito_bold</item>
     </style>
 
     <style name="TextAppearance.Cuisine.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
-        <item name="fontFamily">@font/nunito_medium</item>
+        <item name="fontFamily">@font/nunito_bold</item>
     </style>
 
     <style name="TextAppearance.Cuisine.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
-        <item name="fontFamily">@font/nunito_medium</item>
+        <item name="fontFamily">@font/nunito_bold</item>
     </style>
 </resources>

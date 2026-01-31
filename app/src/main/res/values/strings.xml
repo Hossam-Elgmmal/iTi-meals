@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Cuisine</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="fuel_your_day_with_a_perfectly_planned_meal">Fuel Your day with a perfectly planned meal</string>
+    <string name="email">Email</string>
+    <string name="enter_email">Enter email</string>
+    <string name="enter_a_valid_email">Enter a valid email</string>
+    <string name="password">Password</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="log_in">Log in</string>
+    <string name="don_t_have_an_account">Don’t have an account?</string>
+    <string name="register_now">Register Now!</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="or">Or</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="continue_as_a_guest">Continue as a guest</string>
 </resources>
