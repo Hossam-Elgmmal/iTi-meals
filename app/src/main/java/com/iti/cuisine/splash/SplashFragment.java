@@ -33,7 +33,7 @@ public class SplashFragment extends Fragment implements SplashPresenter.SplashVi
                              Bundle savedInstanceState) {
 
         presenter = ((MainActivity) requireActivity())
-                .getPresenter(PRESENTER_KEY, SplashPresenterImpl::new);
+                .getPresenter(PRESENTER_KEY, SplashPresenterImpl::createNewInstance);
         presenter.setView(this);
         return inflater.inflate(R.layout.fragment_splash, container, false);
     }

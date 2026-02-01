@@ -29,7 +29,18 @@ public class SplashPresenterImpl implements SplashPresenter {
 
     private Disposable navigationDisposable;
 
-    public SplashPresenterImpl() {
+    private final AuthRepo authRepo;
+
+    public static SplashPresenterImpl createNewInstance() {
+        return new SplashPresenterImpl(new AuthRepoImpl());
+    }
+
+    public SplashPresenterImpl(AuthRepo authRepo) {
+        this.authRepo = authRepo;
+        startTimer();
+    }
+
+    private void startTimer() {
         disposable.add(
                 Completable.timer(3500, TimeUnit.MILLISECONDS)
                         .subscribe(
@@ -72,8 +83,6 @@ public class SplashPresenterImpl implements SplashPresenter {
     }
 
     private boolean isUserLoggedIn() {
-        AuthRepo authRepo = new AuthRepoImpl();
-
         return authRepo.isUserLoggedIn();
     }
 
