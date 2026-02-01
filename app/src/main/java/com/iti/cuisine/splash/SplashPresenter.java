@@ -1,6 +1,9 @@
 package com.iti.cuisine.splash;
 
-public interface SplashPresenter {
+
+import com.iti.cuisine.utils.Presenter;
+
+public interface SplashPresenter extends Presenter {
 
     interface SplashView {
 
@@ -11,5 +14,9 @@ public interface SplashPresenter {
     }
 
     void navigateToNextScreen();
+
+    void setView(SplashView view);
+
+    void removeView();
 
 }
