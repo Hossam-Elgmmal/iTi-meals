@@ -8,6 +8,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,7 +80,7 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
             String password = getTextFrom(passwordEditText);
             presenter.onLoginClick(email, password);
         });
-        registerBtn.setOnClickListener(v -> presenter.onSignUpClick());
+        registerBtn.setOnClickListener(v -> presenter.onGoToSignUpClick());
         forgotPasswordBtn.setOnClickListener(v -> presenter.onForgotPasswordClick());
         googleBtn.setOnClickListener(v -> presenter.onGoogleLoginClick());
         guestBtn.setOnClickListener(v -> presenter.onGuestLoginClick());
@@ -94,12 +95,18 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
 
     @Override
     public void navigateToHomeScreen() {
-        //todo
+        Navigation.findNavController(requireView())
+                .navigate(
+                        LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                );
     }
 
     @Override
     public void navigateToSignUpScreen() {
-        //todo
+        Navigation.findNavController(requireView())
+                .navigate(
+                        LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
+                );
     }
 
     @Override

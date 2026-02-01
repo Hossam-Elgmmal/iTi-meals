@@ -5,11 +5,11 @@ import com.iti.cuisine.data.auth.AuthRepoImpl;
 
 public class LoginPresenterImpl implements LoginPresenter{
 
-    private LoginView loginView;
+    private LoginView view;
     private AuthRepo authRepo;
 
-    public LoginPresenterImpl(LoginView loginView) {
-        this.loginView = loginView;
+    public LoginPresenterImpl(LoginView view) {
+        this.view = view;
         authRepo = new AuthRepoImpl();
     }
 
@@ -19,13 +19,13 @@ public class LoginPresenterImpl implements LoginPresenter{
     }
 
     @Override
-    public void onSignUpClick() {
-        //todo
+    public void onGoToSignUpClick() {
+        view.navigateToSignUpScreen();
     }
 
     @Override
     public void onForgotPasswordClick() {
-        //todo
+        view.navigateToForgotPasswordScreen();
     }
 
     @Override

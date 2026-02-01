@@ -12,7 +12,7 @@ public interface LoginPresenter {
     }
 
     void onLoginClick(String email, String password);
-    void onSignUpClick();
+    void onGoToSignUpClick();
     void onForgotPasswordClick();
     void onGoogleLoginClick();
     void onGuestLoginClick();
