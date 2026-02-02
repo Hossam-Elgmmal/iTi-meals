@@ -30,7 +30,7 @@ public class PresenterStoreImpl implements PresenterStore {
 
     @Override
     public void remove(String key) {
-        Presenter presenter = store.get(key);
+        Presenter presenter = store.remove(key);
         if (presenter != null) {
             presenter.destroy();
         }

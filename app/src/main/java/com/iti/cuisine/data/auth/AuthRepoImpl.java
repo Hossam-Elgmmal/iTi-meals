@@ -40,6 +40,16 @@ public class AuthRepoImpl implements AuthRepo {
     }
 
     @Override
+    public Single<AuthResult> signInAnonymously() {
+        return Single.create(emitter -> auth.signInAnonymously()
+                .addOnSuccessListener(result -> emitter.onSuccess(AuthResult.SUCCESS))
+                .addOnFailureListener(t -> {
+                    AuthResult result = AuthResult.fromException(t);
+                    emitter.onSuccess(result);
+                }));
+    }
+
+    @Override
     public void signOut() {
         auth.signOut();
     }

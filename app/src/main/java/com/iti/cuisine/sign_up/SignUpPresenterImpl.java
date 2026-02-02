@@ -167,7 +167,20 @@ public class SignUpPresenterImpl implements SignUpPresenter, Presenter {
 
     @Override
     public void onGuestLoginClick() {
-        //todo
+        Disposable guestLoginDisposable = authRepo.signInAnonymously()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(ignored -> showLoading.onNext(true))
+                .doFinally(() -> showLoading.onNext(false))
+                .subscribe(authResult -> {
+                    if (authResult == AuthResult.SUCCESS) {
+                        isUserAuthenticated.onNext(true);
+                    }
+                    if (view != null) {
+                        view.showMessage(authResult.getMessageId());
+                    }
+                });
+        disposables.add(guestLoginDisposable);
     }
 
     @Override

@@ -7,5 +7,6 @@ public interface AuthRepo {
 
     boolean isUserLoggedIn();
     Single<AuthResult> signUpWithEmailAndPassword(String username, String email, String password);
+    Single<AuthResult> signInAnonymously();
     void signOut();
 }
