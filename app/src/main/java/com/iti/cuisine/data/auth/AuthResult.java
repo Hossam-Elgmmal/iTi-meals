@@ -1,5 +1,9 @@
 package com.iti.cuisine.data.auth;
 
+import androidx.credentials.exceptions.GetCredentialCancellationException;
+import androidx.credentials.exceptions.GetCredentialException;
+import androidx.credentials.exceptions.NoCredentialException;
+
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.firebase.FirebaseNetworkException;
@@ -29,7 +33,10 @@ public enum AuthResult {
     GOOGLE_PLAY_SERVICES_UNAVAILABLE(R.string.google_play_services_is_not_available),
     UNKNOWN_ERROR(R.string.registration_failed_please_try_again),
     USER_DISABLED(R.string.this_account_has_been_disabled),
-    GOOGLE_ACCOUNT_COLLISION(R.string.this_google_account_is_already_linked_to_another_user);
+    GOOGLE_ACCOUNT_COLLISION(R.string.this_google_account_is_already_linked_to_another_user),
+    GOOGLE_CREDENTIAL_ERROR(R.string.google_credential_error),
+    GOOGLE_NO_ACCOUNTS(R.string.no_google_accounts_found),;
+
 
     private final int messageId;
 
@@ -56,6 +63,12 @@ public enum AuthResult {
             return TIMEOUT_ERROR;
         } else if (error instanceof FirebaseTooManyRequestsException) {
             return TOO_MANY_REQUESTS;
+        } else if (error instanceof GetCredentialCancellationException) {
+                return GOOGLE_SIGN_IN_CANCELLED;
+        } else if (error instanceof NoCredentialException) {
+            return GOOGLE_NO_ACCOUNTS;
+        } else if (error instanceof GetCredentialException) {
+            return GOOGLE_CREDENTIAL_ERROR;
         }
 
         if (error instanceof FirebaseAuthException) {

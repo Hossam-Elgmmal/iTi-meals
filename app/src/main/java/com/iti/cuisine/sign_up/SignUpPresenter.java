@@ -1,5 +1,9 @@
 package com.iti.cuisine.sign_up;
 
+import androidx.credentials.Credential;
+
+import io.reactivex.rxjava3.core.Single;
+
 public interface SignUpPresenter {
 
     interface SignUpView {
@@ -16,6 +20,7 @@ public interface SignUpPresenter {
         void removeEmailError();
         void removePasswordError();
         void removeConfirmPasswordError();
+        Single<Credential> getGoogleCredentials();
     }
 
     void setView(SignUpView view);

@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.credentials.Credential;
+import androidx.credentials.CredentialManager;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -21,7 +23,10 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.iti.cuisine.MainActivity;
 import com.iti.cuisine.R;
+import com.iti.cuisine.utils.google_credentials.GoogleSignInManager;
 import com.iti.cuisine.utils.snackbar.SnackbarBuilder;
+
+import io.reactivex.rxjava3.core.Single;
 
 
 public class SignUpFragment extends Fragment implements SignUpPresenter.SignUpView {
@@ -43,6 +48,8 @@ public class SignUpFragment extends Fragment implements SignUpPresenter.SignUpVi
 
     private SignUpPresenter presenter;
 
+    private CredentialManager credentialManager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,13 +67,14 @@ public class SignUpFragment extends Fragment implements SignUpPresenter.SignUpVi
         ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.signUpFragment), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             int imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom;
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, Math.max(systemBars.bottom , imeHeight));
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, Math.max(systemBars.bottom, imeHeight));
 
             return insets;
         });
 
         initializeParameters(view);
         initializeListeners();
+        credentialManager = CredentialManager.create(requireContext().getApplicationContext());
     }
 
     private void initializeParameters(@NonNull View view) {
@@ -187,6 +195,13 @@ public class SignUpFragment extends Fragment implements SignUpPresenter.SignUpVi
         SnackbarBuilder.SnackbarData data = snackbarBuilder
                 .setMessage(message).build();
         ((MainActivity) requireActivity()).showSnackbar(data);
+    }
+
+    @Override
+    public Single<Credential> getGoogleCredentials() {
+        return new GoogleSignInManager().getGoogleCredentials(
+                requireActivity(), credentialManager
+        );
     }
 
     @Override

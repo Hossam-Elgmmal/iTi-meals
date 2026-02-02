@@ -116,7 +116,7 @@ public class SignUpPresenterImpl implements SignUpPresenter, Presenter {
         boolean passwordError = false;
         boolean confirmPasswordError = false;
 
-        assert view != null;
+        if (view == null) return false;
         int messageId = -1;
 
         if (password.equals(confirmPassword)) {
@@ -162,7 +162,39 @@ public class SignUpPresenterImpl implements SignUpPresenter, Presenter {
 
     @Override
     public void onGoogleLoginClick() {
-        //todo
+        if (view == null) return;
+
+        Disposable googleDisposable = view.getGoogleCredentials()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(ignored -> showLoading.onNext(true))
+                .doFinally(() -> showLoading.onNext(false))
+                .subscribe(
+                        credential -> {
+                            Disposable googleLoginDisposable = authRepo.signInWithGoogle(credential)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .doOnSubscribe(ignored -> showLoading.onNext(true))
+                                    .doFinally(() -> showLoading.onNext(false))
+                                    .subscribe(authResult -> {
+                                        if (authResult == AuthResult.SUCCESS) {
+                                            isUserAuthenticated.onNext(true);
+                                        }
+                                        if (view != null) {
+                                            view.showMessage(authResult.getMessageId());
+                                        }
+                                    });
+
+                            disposables.add(googleLoginDisposable);
+                        },
+                        t -> {
+                            AuthResult result = AuthResult.fromException(t);
+                            if (view != null) {
+                                view.showMessage(result.getMessageId());
+                            }
+                        }
+                );
+        disposables.add(googleDisposable);
     }
 
     @Override

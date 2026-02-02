@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment {
         signOutBtn = view.findViewById(R.id.sign_out_btn);
         navController = Navigation.findNavController(view);
         signOutBtn.setOnClickListener(v -> {
-            new AuthRepoImpl().signOut();
+            new AuthRepoImpl().signOut(requireActivity().getApplication());
             navController.navigate(HomeFragmentDirections.actionHomeFragmentToLoginFragment());
         });
     }

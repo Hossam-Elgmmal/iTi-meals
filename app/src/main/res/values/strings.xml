@@ -47,4 +47,6 @@
     <string name="this_account_has_been_disabled">⚠️ This account has been disabled</string>
     <string name="this_google_account_is_already_linked_to_another_user">⚠️ This Google account is already linked to another user</string>
     <string name="sign_out">Sign Out</string>
+    <string name="no_google_accounts_found">⚠️ No google accounts found</string>
+    <string name="google_credential_error">⚠️ Unable to get google credentials</string>
 </resources>
