@@ -1,4 +1,4 @@
-package com.iti.cuisine.login;
+package com.iti.cuisine.auth.login;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.credentials.Credential;
+import androidx.credentials.CredentialManager;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -21,9 +23,15 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.iti.cuisine.MainActivity;
 import com.iti.cuisine.R;
+import com.iti.cuisine.utils.google_credentials.GoogleSignInManager;
+import com.iti.cuisine.utils.snackbar.SnackbarBuilder;
+
+import io.reactivex.rxjava3.core.Single;
 
 
 public class LoginFragment extends Fragment implements LoginPresenter.LoginView {
+
+    private final String PRESENTER_KEY = "login_presenter";
 
     private MaterialButton loginBtn;
     private MaterialButton googleBtn;
@@ -36,6 +44,8 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
     private TextInputLayout passwordTextInputLayout;
 
     private LoginPresenter presenter;
+
+    private CredentialManager credentialManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,12 +63,14 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
         super.onViewCreated(view, savedInstanceState);
         ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.loginFragment), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            int imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom;
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, Math.max(systemBars.bottom, imeHeight));
             return insets;
         });
 
         initializeParameters(view);
         initializeListeners();
+        credentialManager = CredentialManager.create(requireContext().getApplicationContext());
     }
 
     private void initializeParameters(@NonNull View view) {
@@ -72,7 +84,9 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
         emailTextInputLayout = view.findViewById(R.id.email_text_input_layout);
         passwordTextInputLayout = view.findViewById(R.id.password_text_input_layout);
 
-        presenter = new LoginPresenterImpl(this);
+        presenter = ((MainActivity) requireActivity())
+                .getPresenter(PRESENTER_KEY, LoginPresenterImpl::createNewInstance);
+        presenter.setView(this);
     }
 
     private void initializeListeners() {
@@ -112,7 +126,30 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
 
     @Override
     public void navigateToForgotPasswordScreen() {
-        //todo
+        Navigation.findNavController(requireView())
+                .navigate(
+                        LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment()
+                );
+    }
+
+    @Override
+    public void showEmailError() {
+        emailTextInputLayout.setError(" ");
+    }
+
+    @Override
+    public void showPasswordError() {
+        passwordTextInputLayout.setError(" ");
+    }
+
+    @Override
+    public void removeEmailError() {
+        emailTextInputLayout.setError(null);
+    }
+
+    @Override
+    public void removePasswordError() {
+        passwordTextInputLayout.setError(null);
     }
 
     @Override
@@ -126,7 +163,27 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
     }
 
     @Override
-    public void showErrorMessage(String message) {
-        //todo
+    public void showMessage(int messageId) {
+        String message = getString(messageId);
+        SnackbarBuilder snackbarBuilder = new SnackbarBuilder();
+        SnackbarBuilder.SnackbarData data = snackbarBuilder
+                .setMessage(message).build();
+        ((MainActivity) requireActivity()).showSnackbar(data);
+    }
+
+    @Override
+    public Single<Credential> getGoogleCredentials() {
+        return new GoogleSignInManager().getGoogleCredentials(
+                requireActivity(), credentialManager
+        );
+    }
+
+    @Override
+    public void onDestroyView() {
+        presenter.removeView();
+        if (isRemoving()) {
+            ((MainActivity) requireActivity()).removePresenter(PRESENTER_KEY);
+        }
+        super.onDestroyView();
     }
 }

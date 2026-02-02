@@ -5,7 +5,7 @@
     android:id="@+id/loginFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.LoginFragment">
+    tools:context=".auth.login.LoginFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -61,6 +61,7 @@
             android:layout_height="wrap_content"
             app:errorEnabled="true"
             app:errorIconDrawable="@null"
+            app:helperText=" "
             app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="@id/right_guideline"
             app:layout_constraintStart_toStartOf="@id/left_guideline"
@@ -97,6 +98,7 @@
             app:endIconTint="@color/md_theme_onBackground"
             app:errorEnabled="true"
             app:errorIconDrawable="@null"
+            app:helperText=" "
             app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="@id/right_guideline"
             app:layout_constraintStart_toStartOf="@id/left_guideline"

@@ -21,7 +21,7 @@ import java.util.concurrent.TimeoutException;
 public enum AuthResult {
     SUCCESS(R.string.welcome_aboard),
     EMAIL_ALREADY_IN_USE(R.string.this_email_is_already_registered),
-    INVALID_CREDENTIALS(R.string.invalid_email_or_password),
+    INVALID_CREDENTIALS(R.string.wrong_email_or_password),
     WEAK_PASSWORD(R.string.password_is_too_weak),
     INVALID_EMAIL(R.string.invalid_email_address),
     INVALID_USER(R.string.user_account_not_found),

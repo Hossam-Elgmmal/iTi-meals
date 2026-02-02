@@ -37,7 +37,7 @@
     <string name="user_account_not_found">⚠️ User account not found</string>
     <string name="no_internet_connection">⚠️ No internet connection</string>
     <string name="registration_failed_please_try_again">⚠️ Registration failed. Please try again.</string>
-    <string name="invalid_email_or_password">⚠️ Invalid email or password</string>
+    <string name="wrong_email_or_password">⚠️ Wrong email or password</string>
     <string name="request_timed_out_please_try_again">⚠️ Request timed out please try again</string>
     <string name="too_many_attempts_please_try_again_later">⚠️ Too many attempts. Please try again later</string>
     <string name="google_sign_in_failed">⚠️ Google sign-in failed</string>

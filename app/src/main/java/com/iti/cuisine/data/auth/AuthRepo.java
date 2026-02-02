@@ -10,6 +10,7 @@ import io.reactivex.rxjava3.core.Single;
 public interface AuthRepo {
 
     boolean isUserLoggedIn();
+    Single<AuthResult> loginWithEmailAndPassword(String email, String password);
     Single<AuthResult> signUpWithEmailAndPassword(String username, String email, String password);
     Single<AuthResult> signInWithGoogle(Credential credential);
     Single<AuthResult> signInAnonymously();

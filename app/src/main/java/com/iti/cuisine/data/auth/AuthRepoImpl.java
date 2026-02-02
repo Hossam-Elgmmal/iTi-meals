@@ -39,6 +39,16 @@ public class AuthRepoImpl implements AuthRepo {
     }
 
     @Override
+    public Single<AuthResult> loginWithEmailAndPassword(String email, String password) {
+        return Single.create(emitter -> auth.signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener(result -> emitter.onSuccess(AuthResult.SUCCESS))
+                .addOnFailureListener(t -> {
+                    AuthResult result = AuthResult.fromException(t);
+                    emitter.onSuccess(result);
+                }));
+    }
+
+    @Override
     public Single<AuthResult> signUpWithEmailAndPassword(String username, String email, String password) {
         return Single.create(emitter -> auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(result -> {

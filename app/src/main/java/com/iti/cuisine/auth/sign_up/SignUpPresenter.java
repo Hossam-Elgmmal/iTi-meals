@@ -1,17 +1,12 @@
-package com.iti.cuisine.sign_up;
+package com.iti.cuisine.auth.sign_up;
 
-import androidx.credentials.Credential;
+import com.iti.cuisine.auth.AuthView;
+import com.iti.cuisine.utils.presenter.Presenter;
 
-import io.reactivex.rxjava3.core.Single;
+public interface SignUpPresenter extends Presenter {
 
-public interface SignUpPresenter {
-
-    interface SignUpView {
-        void navigateToHomeScreen();
+    interface SignUpView extends AuthView {
         void navigateToLoginScreen();
-        void showLoading();
-        void hideLoading();
-        void showMessage(int messageId);
         void showUsernameError();
         void showEmailError();
         void showPasswordError();
@@ -20,7 +15,6 @@ public interface SignUpPresenter {
         void removeEmailError();
         void removePasswordError();
         void removeConfirmPasswordError();
-        Single<Credential> getGoogleCredentials();
     }
 
     void setView(SignUpView view);

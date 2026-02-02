@@ -1,4 +1,4 @@
-package com.iti.cuisine.sign_up;
+package com.iti.cuisine.auth.sign_up;
 
 import android.os.Bundle;
 
