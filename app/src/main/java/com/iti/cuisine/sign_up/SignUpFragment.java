@@ -59,7 +59,9 @@ public class SignUpFragment extends Fragment implements SignUpPresenter.SignUpVi
         super.onViewCreated(view, savedInstanceState);
         ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.signUpFragment), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            int imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom;
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, Math.max(systemBars.bottom , imeHeight));
+
             return insets;
         });
 
