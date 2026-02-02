@@ -5,10 +5,12 @@ import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.iti.cuisine.utils.LoadingDialog;
-import com.iti.cuisine.utils.Presenter;
-import com.iti.cuisine.utils.PresenterStore;
-import com.iti.cuisine.utils.PresenterStoreImpl;
+import com.iti.cuisine.utils.loading.LoadingDialog;
+import com.iti.cuisine.utils.presenter.Presenter;
+import com.iti.cuisine.utils.presenter.PresenterStore;
+import com.iti.cuisine.utils.presenter.PresenterStoreImpl;
+import com.iti.cuisine.utils.snackbar.SnackbarBuilder;
+import com.iti.cuisine.utils.snackbar.SnackbarManager;
 
 import java.util.function.Supplier;
 
@@ -16,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private PresenterStore presenterStore;
     private LoadingDialog loadingDialog;
+    private SnackbarManager snackbarManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         presenterStore = PresenterStoreImpl.getInstance();
         loadingDialog = new LoadingDialog(this);
+        snackbarManager = new SnackbarManager();
     }
 
     public <T extends Presenter> T getPresenter(String key, Supplier<T> factory) {
@@ -42,11 +46,19 @@ public class MainActivity extends AppCompatActivity {
         loadingDialog.dismiss();
     }
 
+    public void showSnackbar(SnackbarBuilder.SnackbarData data) {
+        snackbarManager.showSnackbar(data, findViewById(android.R.id.content));
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
         if (isFinishing()) {
             presenterStore.clear();
+        }
+        if (snackbarManager != null) {
+            snackbarManager.dismiss();
+            snackbarManager = null;
         }
     }
 }

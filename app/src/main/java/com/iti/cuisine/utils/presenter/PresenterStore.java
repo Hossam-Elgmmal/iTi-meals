@@ -1,4 +1,4 @@
-package com.iti.cuisine.utils;
+package com.iti.cuisine.utils.presenter;
 
 import java.util.function.Supplier;
 

@@ -1,4 +1,4 @@
-package com.iti.cuisine.utils;
+package com.iti.cuisine.utils.loading;
 
 import android.app.Dialog;
 import android.content.Context;
