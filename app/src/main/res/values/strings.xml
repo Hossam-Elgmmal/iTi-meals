@@ -26,4 +26,8 @@
     <string name="log_in_now">Log in Now!</string>
     <string name="email_must_be_valid">Email must be valid</string>
     <string name="sign_up">Sign up</string>
+    <string name="invalid_password">⚠️ Invalid password</string>
+    <string name="invalid_email">⚠️ Invalid email</string>
+    <string name="username_is_too_short">⚠️ Username is too short</string>
+    <string name="passwords_do_not_match">⚠️ Passwords do not match</string>
 </resources>

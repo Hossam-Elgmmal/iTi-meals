@@ -1,5 +1,6 @@
 package com.iti.cuisine.utils.snackbar;
 
+import android.content.Context;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -8,11 +9,12 @@ public class SnackbarManager {
 
     private Snackbar currentSnackbar;
 
-    public void showSnackbar(SnackbarBuilder.SnackbarData data, View hostView) {
+    public void showSnackbar(SnackbarBuilder.SnackbarData data, Context context, View hostView) {
 
-        if (currentSnackbar != null) currentSnackbar.dismiss();
+        dismissCurrentSnackbar();
 
         currentSnackbar = Snackbar.make(
+                context,
                 hostView,
                 data.getMessage(),
                 Snackbar.LENGTH_SHORT
@@ -33,7 +35,7 @@ public class SnackbarManager {
         currentSnackbar.show();
     }
 
-    public void dismiss() {
+    private void dismissCurrentSnackbar() {
         if (currentSnackbar != null) {
             currentSnackbar.dismiss();
             currentSnackbar = null;

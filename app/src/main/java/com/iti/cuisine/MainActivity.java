@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showSnackbar(SnackbarBuilder.SnackbarData data) {
-        snackbarManager.showSnackbar(data, findViewById(android.R.id.content));
+        snackbarManager.showSnackbar(data, this, findViewById(R.id.main_fragment_container));
     }
 
     @Override
@@ -55,10 +55,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         if (isFinishing()) {
             presenterStore.clear();
-        }
-        if (snackbarManager != null) {
-            snackbarManager.dismiss();
-            snackbarManager = null;
         }
     }
 }

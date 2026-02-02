@@ -1,7 +1,7 @@
 package com.iti.cuisine.splash;
 
 
-import com.iti.cuisine.utils.Presenter;
+import com.iti.cuisine.utils.presenter.Presenter;
 
 public interface SplashPresenter extends Presenter {
 

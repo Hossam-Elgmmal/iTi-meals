@@ -21,9 +21,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.iti.cuisine.MainActivity;
 import com.iti.cuisine.R;
+import com.iti.cuisine.utils.snackbar.SnackbarBuilder;
 
 
 public class SignUpFragment extends Fragment implements SignUpPresenter.SignUpView {
+
+    private final String PRESENTER_KEY = "sign_up_presenter";
 
     private MaterialButton signUpBtn;
     private MaterialButton googleBtn;
@@ -79,7 +82,9 @@ public class SignUpFragment extends Fragment implements SignUpPresenter.SignUpVi
         confirmPasswordEditText = view.findViewById(R.id.confirm_password_edit_text);
         confirmPasswordTextInputLayout = view.findViewById(R.id.confirm_password_text_input_layout);
 
-        presenter = new SignUpPresenterImpl(this);
+        presenter = ((MainActivity) requireActivity())
+                .getPresenter(PRESENTER_KEY, SignUpPresenterImpl::createNewInstance);
+        presenter.setView(this);
     }
 
     private void initializeListeners() {
@@ -130,7 +135,64 @@ public class SignUpFragment extends Fragment implements SignUpPresenter.SignUpVi
     }
 
     @Override
-    public void showErrorMessage(String message) {
-        //todo
+    public void showUsernameError() {
+        usernameTextInputLayout.setError(getString(R.string.username_must_be_at_least_3_characters));
+    }
+
+    @Override
+    public void showEmailError() {
+        emailTextInputLayout.setError(getString(R.string.email_must_be_valid));
+    }
+
+    @Override
+    public void showPasswordError() {
+        passwordTextInputLayout.setError(getString(R.string.password_must_be_at_least_8_characters));
+    }
+
+    @Override
+    public void showConfirmPasswordError() {
+        confirmPasswordTextInputLayout.setError(getString(R.string.passwords_must_match));
+    }
+
+    @Override
+    public void removeUsernameError() {
+        usernameTextInputLayout.setError(null);
+        usernameTextInputLayout.setHelperText(getString(R.string.username_must_be_at_least_3_characters));
+    }
+
+    @Override
+    public void removeEmailError() {
+        emailTextInputLayout.setError(null);
+        emailTextInputLayout.setHelperText(getString(R.string.email_must_be_valid));
+    }
+
+    @Override
+    public void removePasswordError() {
+        passwordTextInputLayout.setError(null);
+        passwordTextInputLayout.setHelperText(getString(R.string.password_must_be_at_least_8_characters));
+    }
+
+    @Override
+    public void removeConfirmPasswordError() {
+        confirmPasswordTextInputLayout.setError(null);
+        confirmPasswordTextInputLayout.setHelperText(getString(R.string.passwords_must_match));
+    }
+
+    @Override
+    public void showMessage(int messageId) {
+        String message = getString(messageId);
+        SnackbarBuilder snackbarBuilder = new SnackbarBuilder();
+        SnackbarBuilder.SnackbarData data = snackbarBuilder
+                .setMessage(message).build();
+        ((MainActivity) requireActivity()).showSnackbar(data);
+    }
+
+    @Override
+    public void onDestroyView() {
+        presenter.removeView();
+        if (isRemoving()) {
+            ((MainActivity) requireActivity()).removePresenter(PRESENTER_KEY);
+        }
+        super.onDestroyView();
     }
 }

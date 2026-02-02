@@ -7,10 +7,21 @@ public interface SignUpPresenter {
         void navigateToLoginScreen();
         void showLoading();
         void hideLoading();
-        void showErrorMessage(String message);
+        void showMessage(int messageId);
+        void showUsernameError();
+        void showEmailError();
+        void showPasswordError();
+        void showConfirmPasswordError();
+        void removeUsernameError();
+        void removeEmailError();
+        void removePasswordError();
+        void removeConfirmPasswordError();
     }
 
+    void setView(SignUpView view);
+    void removeView();
     void onGoToLoginClick();
+    void onGoToHome();
     void onSignUpClick(String username, String email, String password, String confirmPassword);
     void onGoogleLoginClick();
     void onGuestLoginClick();
