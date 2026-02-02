@@ -6,24 +6,29 @@ import com.iti.cuisine.Constants;
 import com.iti.cuisine.R;
 import com.iti.cuisine.data.auth.AuthRepo;
 import com.iti.cuisine.data.auth.AuthRepoImpl;
+import com.iti.cuisine.data.auth.AuthResult;
 import com.iti.cuisine.utils.presenter.Presenter;
 
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
 
 public class SignUpPresenterImpl implements SignUpPresenter, Presenter {
 
     @Nullable
     private SignUpView view;
-    private AuthRepo authRepo;
+    private final AuthRepo authRepo;
 
     private final BehaviorSubject<Boolean> showLoading = BehaviorSubject.createDefault(false);
-    private final CompositeDisposable disposable = new CompositeDisposable();
+    private final BehaviorSubject<Boolean> isUserAuthenticated = BehaviorSubject.createDefault(false);
+    private final CompositeDisposable disposables = new CompositeDisposable();
     private Disposable loadingDisposable;
+    private Disposable userDisposable;
 
     public static SignUpPresenterImpl createNewInstance() {
         return new SignUpPresenterImpl(new AuthRepoImpl());
@@ -37,11 +42,12 @@ public class SignUpPresenterImpl implements SignUpPresenter, Presenter {
     public void setView(@NonNull SignUpView view) {
         this.view = view;
         listenToLoading();
+        listenToAuthenticatedUser();
     }
 
     @Override
     public void removeView() {
-        stopListeningToLoading();
+        stopListeningToEvents();
         view = null;
     }
 
@@ -55,11 +61,21 @@ public class SignUpPresenterImpl implements SignUpPresenter, Presenter {
                 }
             }
         });
-        disposable.add(loadingDisposable);
+        disposables.add(loadingDisposable);
     }
 
-    private void stopListeningToLoading() {
-        disposable.remove(loadingDisposable);
+    private void listenToAuthenticatedUser() {
+        userDisposable = isUserAuthenticated.subscribe(isAuthenticated -> {
+            if (isAuthenticated && view != null) {
+                view.navigateToHomeScreen();
+            }
+        });
+        disposables.add(userDisposable);
+    }
+
+    private void stopListeningToEvents() {
+        disposables.remove(loadingDisposable);
+        disposables.remove(userDisposable);
     }
 
     @Override
@@ -70,18 +86,28 @@ public class SignUpPresenterImpl implements SignUpPresenter, Presenter {
     }
 
     @Override
-    public void onGoToHome() {
-        if (view != null) {
-            view.navigateToHomeScreen();
-        }
-    }
-
-    @Override
     public void onSignUpClick(String username, String email, String password, String confirmPassword) {
 
         boolean isValid = validate(username, email, password, confirmPassword);
 
-        //todo
+        if (!isValid) return;
+
+        Disposable signUpDisposable = authRepo.signUpWithEmailAndPassword(username, email, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(ignored -> showLoading.onNext(true))
+                .doFinally(() -> showLoading.onNext(false))
+                .subscribe(
+                        authResult -> {
+                            if (authResult == AuthResult.SUCCESS) {
+                                isUserAuthenticated.onNext(true);
+                            }
+                            if (view != null) {
+                                view.showMessage(authResult.getMessageId());
+                            }
+                        }
+                );
+        disposables.add(signUpDisposable);
     }
 
     private boolean validate(String username, String email, String password, String confirmPassword) {
@@ -146,6 +172,6 @@ public class SignUpPresenterImpl implements SignUpPresenter, Presenter {
 
     @Override
     public void destroy() {
-        disposable.clear();
+        disposables.clear();
     }
 }

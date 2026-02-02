@@ -11,4 +11,10 @@
         android:gravity="center"
         android:text="Home Fragment" />
 
+    <Button
+        android:id="@+id/sign_out_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:text="@string/sign_out" />
 </FrameLayout>

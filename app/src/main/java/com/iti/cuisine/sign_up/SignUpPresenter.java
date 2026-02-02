@@ -21,7 +21,6 @@ public interface SignUpPresenter {
     void setView(SignUpView view);
     void removeView();
     void onGoToLoginClick();
-    void onGoToHome();
     void onSignUpClick(String username, String email, String password, String confirmPassword);
     void onGoogleLoginClick();
     void onGuestLoginClick();
