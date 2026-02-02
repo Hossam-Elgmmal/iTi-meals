@@ -56,6 +56,10 @@ public enum AuthResult {
         } else if (error instanceof FirebaseAuthInvalidCredentialsException) {
             return INVALID_CREDENTIALS;
         } else if (error instanceof FirebaseAuthInvalidUserException) {
+            String code = ((FirebaseAuthInvalidUserException) error).getErrorCode();
+            if ("ERROR_USER_DISABLED".equals(code)) {
+                return USER_DISABLED;
+            }
             return INVALID_USER;
         } else if (error instanceof FirebaseNetworkException) {
             return NETWORK_ERROR;
