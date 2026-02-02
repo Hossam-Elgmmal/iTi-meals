@@ -19,6 +19,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
+import com.iti.cuisine.MainActivity;
 import com.iti.cuisine.R;
 
 
@@ -116,12 +117,12 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
 
     @Override
     public void showLoading() {
-        //todo
+        ((MainActivity) requireActivity()).showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-        //todo
+        ((MainActivity) requireActivity()).hideLoadingDialog();
     }
 
     @Override
