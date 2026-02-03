@@ -49,4 +49,9 @@
     <string name="sign_out">Sign Out</string>
     <string name="no_google_accounts_found">⚠️ No google accounts found</string>
     <string name="google_credential_error">⚠️ Unable to get google credentials</string>
+    <string name="discover">Discover</string>
+    <string name="search">Search</string>
+    <string name="plans">Plans</string>
+    <string name="favorites">Favorites</string>
+    <string name="profile">Profile</string>
 </resources>

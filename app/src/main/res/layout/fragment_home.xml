@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".home.HomeFragment">
 
-    <TextView
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Home Fragment" />
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/bottom_nav_graph" />
 
-    <Button
-        android:id="@+id/sign_out_btn"
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        style="@style/Widget.Material3.BottomNavigationView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:text="@string/sign_out" />
-</FrameLayout>
+        android:layout_gravity="bottom"
+        app:labelVisibilityMode="labeled"
+        app:layout_behavior="com.google.android.material.behavior.HideViewOnScrollBehavior"
+        app:menu="@menu/bottom_nav_menu" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

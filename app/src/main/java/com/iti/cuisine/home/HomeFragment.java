@@ -6,21 +6,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.iti.cuisine.R;
-import com.iti.cuisine.data.auth.AuthRepoImpl;
 
 
 public class HomeFragment extends Fragment {
-
-    Button signOutBtn;
-    NavController navController;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,11 +33,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        signOutBtn = view.findViewById(R.id.sign_out_btn);
-        navController = Navigation.findNavController(view);
-        signOutBtn.setOnClickListener(v -> {
-            new AuthRepoImpl().signOut(requireActivity().getApplication());
-            navController.navigate(HomeFragmentDirections.actionHomeFragmentToLoginFragment());
-        });
+
+        NavHostFragment navFragment = (NavHostFragment) getChildFragmentManager()
+                .findFragmentById(R.id.fragmentContainerView);
+
+        NavController navController = navFragment.getNavController();
+        BottomNavigationView bottomNav = view.findViewById(R.id.bottom_navigation);
+
+        NavigationUI.setupWithNavController(bottomNav, navController);
     }
 }
