@@ -18,13 +18,13 @@ import com.iti.cuisine.data.database_models.PlanMealEntity;
         FavoriteMealEntity.class, IngredientEntity.class, MealEntity.class,
         MealIngredientEntity.class, PlanMealEntity.class
 }, version = 1)
-abstract class MealDatabase extends RoomDatabase {
+public abstract class MealDatabase extends RoomDatabase {
 
 
     private static final String DATABASE_NAME = "meals.db";
     private static volatile MealDatabase instance;
 
-    static MealDatabase getInstance(Application application) {
+    public static MealDatabase getInstance(Application application) {
         if (instance == null) {
             synchronized (MealDatabase.class) {
                 if (instance == null) {
@@ -36,18 +36,18 @@ abstract class MealDatabase extends RoomDatabase {
         return instance;
     }
 
-    abstract CategoryDao getCategoryDao();
+    public abstract CategoryDao getCategoryDao();
 
-    abstract CountryDao getCountryDao();
+    public abstract CountryDao getCountryDao();
 
-    abstract FavoriteDao getFavoriteDao();
+    public abstract FavoriteDao getFavoriteDao();
 
-    abstract IngredientDao getIngredientDao();
+    public abstract IngredientDao getIngredientDao();
 
-    abstract MealDao getMealDao();
+    public abstract MealDao getMealDao();
 
-    abstract MealIngredientDao getMealIngredientDao();
+    public abstract MealIngredientDao getMealIngredientDao();
 
-    abstract PlanMealDao getPlanMealDao();
+    public abstract PlanMealDao getPlanMealDao();
 
 }
