@@ -13,23 +13,17 @@ public class MealDto {
     @SerializedName("strMeal")
     private String title;
 
-    @SerializedName("strDrinkAlternate")
-    private String drinkAlternate;
-
     @SerializedName("strCategory")
     private String category;
 
     @SerializedName("strArea")
-    private String area;
+    private String country;
 
     @SerializedName("strInstructions")
     private String instructions;
 
     @SerializedName("strMealThumb")
     private String thumbnail;
-
-    @SerializedName("strTags")
-    private String tags;
 
     @SerializedName("strYoutube")
     private String youtubeUrl;
@@ -116,19 +110,6 @@ public class MealDto {
     @SerializedName("strMeasure20")
     private String measure20;
 
-    @SerializedName("strSource")
-    private String sourceUrl;
-
-    @SerializedName("strImageSource")
-    private String imageSource;
-
-    @SerializedName("strCreativeCommonsConfirmed")
-    private String creativeCommonsConfirmed;
-
-    @SerializedName("dateModified")
-    private String dateModified;
-
-
     public MealDto() {
     }
 
@@ -144,8 +125,8 @@ public class MealDto {
         return category;
     }
 
-    public String getArea() {
-        return area;
+    public String getCountry() {
+        return country;
     }
 
     public String getInstructions() {
@@ -154,10 +135,6 @@ public class MealDto {
 
     public String getThumbnail() {
         return thumbnail + "/large";
-    }
-
-    public String getTags() {
-        return tags;
     }
 
     public String getYoutubeUrl() {
@@ -234,16 +211,16 @@ public class MealDto {
     }
 
     public static class MealIngredient {
-        private final String name;
+        private final String title;
         private final String measure;
 
         public MealIngredient(String name, String measure) {
-            this.name = name.replaceAll("\\s", "_");
+            this.title = name.replaceAll("\\s", "_");
             this.measure = measure;
         }
 
-        public String getName() {
-            return name;
+        public String getTitle() {
+            return title;
         }
 
         public String getMeasure() {
@@ -251,7 +228,7 @@ public class MealDto {
         }
 
         public String getImageUrl() {
-            return "https://www.themealdb.com/images/ingredients/" + name + "-Small.png";
+            return "https://www.themealdb.com/images/ingredients/" + title + "-Small.png";
         }
     }
 }

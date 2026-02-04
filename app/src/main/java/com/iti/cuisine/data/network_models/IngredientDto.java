@@ -8,9 +8,7 @@ public class IngredientDto {
     @SerializedName("strIngredient")
     public String title;
     @SerializedName("strDescription")
-    public String strDescription;
+    public String description;
     @SerializedName("strThumb")
-    public String strThumb;
-    @SerializedName("strType")
-    public Object strType;
+    public String thumbnail;
 }
