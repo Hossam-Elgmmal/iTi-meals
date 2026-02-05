@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -41,5 +42,14 @@ public class HomeFragment extends Fragment {
         BottomNavigationView bottomNav = view.findViewById(R.id.bottom_navigation);
 
         NavigationUI.setupWithNavController(bottomNav, navController);
+
+        FragmentContainerView container = view.findViewById(R.id.fragmentContainerView);
+        bottomNav.post(() -> {
+            ViewGroup.MarginLayoutParams params =
+                    (ViewGroup.MarginLayoutParams) container.getLayoutParams();
+
+            params.bottomMargin = bottomNav.getHeight();
+            container.setLayoutParams(params);
+        });
     }
 }
