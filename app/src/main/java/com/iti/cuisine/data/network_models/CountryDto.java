@@ -10,122 +10,90 @@ public class CountryDto {
         return title;
     }
 
-    public String getFlagEmoji() {
+    public String getFlagUrl() {
+        return "https://www.themealdb.com/images/icons/flags/big/128/" + getCountryCode() + ".png";
+    }
+
+    private String getCountryCode() {
+        if (title == null) return "unknown";
+
         switch (title) {
-
-            case "Algerian":
-                return "🇩🇿";
-
             case "American":
-                return "🇺🇸";
-
-            case "Argentinian":
-                return "🇦🇷";
-
-            case "Australian":
-                return "🇦🇺";
-
+                return "us";
             case "British":
-                return "🇬🇧";
-
+                return "gb";
+            case "Algerian":
+                return "dz";
+            case "Argentinian":
+                return "ar";
+            case "Australian":
+                return "au";
             case "Canadian":
-                return "🇨🇦";
-
+                return "ca";
             case "Chinese":
-                return "🇨🇳";
-
+                return "cn";
             case "Croatian":
-                return "🇭🇷";
-
+                return "hr";
             case "Dutch":
-                return "🇳🇱";
-
+                return "nl";
             case "Egyptian":
-                return "🇪🇬";
-
+                return "eg";
             case "Filipino":
-                return "🇵🇭";
-
+                return "ph";
             case "French":
-                return "🇫🇷";
-
+                return "fr";
             case "Greek":
-                return "🇬🇷";
-
+                return "gr";
             case "Indian":
-                return "🇮🇳";
-
+                return "in";
             case "Irish":
-                return "🇮🇪";
-
+                return "ie";
             case "Italian":
-                return "🇮🇹";
-
+                return "it";
             case "Jamaican":
-                return "🇯🇲";
-
+                return "jm";
             case "Japanese":
-                return "🇯🇵";
-
+                return "jp";
             case "Kenyan":
-                return "🇰🇪";
-
+                return "ke";
             case "Malaysian":
-                return "🇲🇾";
-
+                return "my";
             case "Mexican":
-                return "🇲🇽";
-
+                return "mx";
             case "Moroccan":
-                return "🇲🇦";
-
+                return "ma";
             case "Norwegian":
-                return "🇳🇴";
-
+                return "no";
             case "Polish":
-                return "🇵🇱";
-
+                return "pl";
             case "Portuguese":
-                return "🇵🇹";
-
+                return "pt";
             case "Russian":
-                return "🇷🇺";
-
+                return "ru";
             case "Saudi Arabian":
-                return "🇸🇦";
-
+                return "sa";
             case "Slovakian":
-                return "🇸🇰";
-
+                return "sk";
             case "Spanish":
-                return "🇪🇸";
-
+                return "es";
             case "Syrian":
-                return "🇸🇾";
-
+                return "sy";
             case "Thai":
-                return "🇹🇭";
-
+                return "th";
             case "Tunisian":
-                return "🇹🇳";
-
+                return "tn";
             case "Turkish":
-                return "🇹🇷";
-
+                return "tr";
             case "Ukrainian":
-                return "🇺🇦";
-
+                return "ua";
             case "Uruguayan":
-                return "🇺🇾";
-
-            case "Venezulan":
-                return "🇻🇪";   // API typo
-
+                return "uy";
             case "Vietnamese":
-                return "🇻🇳";
-
+                return "vn";
+            case "Venezulan":
+                return "ve";
             default:
-                return "🌍";
+                return "unknown";
         }
     }
 }

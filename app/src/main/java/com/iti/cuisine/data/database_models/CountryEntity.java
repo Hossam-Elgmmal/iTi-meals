@@ -12,11 +12,11 @@ public class CountryEntity {
     @PrimaryKey
     public String title;
 
-    public String emoji;
+    public String flagUrl;
 
-    public CountryEntity(@NonNull String title, String emoji) {
+    public CountryEntity(@NonNull String title, String flagUrl) {
         this.title = title;
-        this.emoji = emoji;
+        this.flagUrl = flagUrl;
     }
 
     @NonNull
@@ -28,11 +28,11 @@ public class CountryEntity {
         this.title = title;
     }
 
-    public String getEmoji() {
-        return emoji;
+    public String getFlagUrl() {
+        return flagUrl;
     }
 
-    public void setEmoji(String emoji) {
-        this.emoji = emoji;
+    public void setFlagUrl(String flagUrl) {
+        this.flagUrl = flagUrl;
     }
 }
