@@ -225,7 +225,7 @@ public class MealDto {
 
         public MealIngredientDto(@NonNull String mealId, @NonNull String name, @NonNull String measure) {
             this.mealId = mealId;
-            this.title = name.replaceAll("\\s", "_");
+            this.title = name;
             this.measure = measure;
         }
 
@@ -246,7 +246,7 @@ public class MealDto {
 
         @NonNull
         public String getThumbnail() {
-            return "https://www.themealdb.com/images/ingredients/" + title + "-large.png";
+            return "https://www.themealdb.com/images/ingredients/" + title.replaceAll("\\s", "_") + "-large.png";
         }
     }
 }

@@ -4,8 +4,10 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.iti.cuisine.data.database_models.MealEntity;
+import com.iti.cuisine.data.database_models.MealWithIngredients;
 
 import java.util.List;
 
@@ -16,16 +18,20 @@ import io.reactivex.rxjava3.core.Flowable;
 public interface MealDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insert(MealEntity meal);
+    void insert(MealEntity meal);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insertAll(List<MealEntity> meals);
+    void insertAll(List<MealEntity> meals);
+
+    @Transaction
+    @Query("SELECT * FROM meals WHERE id = :mealId")
+    Flowable<MealWithIngredients> getMealWithIngredients(String mealId);
+
+    @Query("SELECT * FROM meals WHERE title LIKE :letter || '%'")
+    Flowable<List<MealEntity>> getMealsByFirstLetter(String letter);
 
     @Query("SELECT * FROM meals")
     Flowable<List<MealEntity>> getAllMeals();
-
-    @Query("SELECT * FROM meals WHERE id = :mealId")
-    Flowable<MealEntity> getMealById(String mealId);
 
     @Query("DELETE FROM meals WHERE id = :mealId")
     Completable deleteMealById(String mealId);

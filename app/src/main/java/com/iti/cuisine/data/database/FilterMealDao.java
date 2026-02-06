@@ -16,10 +16,10 @@ import io.reactivex.rxjava3.core.Flowable;
 public interface FilterMealDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insert(FilterMealEntity filterMeal);
+    void insert(FilterMealEntity filterMeal);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insertAll(List<FilterMealEntity> filterMeals);
+    void insertAll(List<FilterMealEntity> filterMeals);
 
     @Query("SELECT * FROM filter_meals")
     Flowable<List<FilterMealEntity>> getAllFilterMeals();

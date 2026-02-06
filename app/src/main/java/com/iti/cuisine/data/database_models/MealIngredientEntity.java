@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
+import java.util.Objects;
 
 @Entity(tableName = "mealIngredients", primaryKeys = {"mealId", "title"})
 public class MealIngredientEntity {
@@ -28,6 +29,18 @@ public class MealIngredientEntity {
         this.title = title;
         this.measure = measure;
         this.thumbnail = thumbnail;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        MealIngredientEntity that = (MealIngredientEntity) o;
+        return Objects.equals(mealId, that.mealId) && Objects.equals(title, that.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mealId, title);
     }
 
     @NonNull

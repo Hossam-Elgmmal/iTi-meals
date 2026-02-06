@@ -58,4 +58,8 @@
     <string name="meal_image">Meal Image</string>
     <string name="star_ingredients">Star Ingredients</string>
     <string name="today_s_meals">Today\'s Meals</string>
+    <string name="connection_timeout_please_check_your_internet">⚠️ Connection timeout. Please check your internet.</string>
+    <string name="service_temporarily_unavailable">⚠️ Service temporarily unavailable. Please try again later.</string>
+    <string name="no_meals_available_right_now">⚠️ No meals available right now</string>
+    <string name="something_went_wrong_please_try_again">⚠️ Something went wrong. Please try again.</string>
 </resources>

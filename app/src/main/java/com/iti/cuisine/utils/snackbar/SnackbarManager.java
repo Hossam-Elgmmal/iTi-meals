@@ -2,6 +2,7 @@ package com.iti.cuisine.utils.snackbar;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -25,12 +26,18 @@ public class SnackbarManager {
         }
         View view = currentSnackbar.getView();
 
-        view.setPadding(
-                view.getPaddingLeft(),
-                view.getPaddingTop(),
-                view.getPaddingRight(),
-                data.getBottomPadding()
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+        int margin = 0;
+        if (data.getBottomPadding() != 0) {
+            margin = (int) (data.getBottomPadding() * context.getResources().getDisplayMetrics().density);
+        }
+        params.setMargins(
+                params.leftMargin,
+                params.topMargin,
+                params.rightMargin,
+                margin + params.bottomMargin
         );
+        view.setLayoutParams(params);
 
         currentSnackbar.show();
     }

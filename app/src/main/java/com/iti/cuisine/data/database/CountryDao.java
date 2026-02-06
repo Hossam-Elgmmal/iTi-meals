@@ -16,10 +16,10 @@ import io.reactivex.rxjava3.core.Flowable;
 public interface CountryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insert(CountryEntity country);
+    void insert(CountryEntity country);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insertAll(List<CountryEntity> countries);
+    void insertAll(List<CountryEntity> countries);
 
     @Query("SELECT * FROM countries")
     Flowable<List<CountryEntity>> getAllCountries();

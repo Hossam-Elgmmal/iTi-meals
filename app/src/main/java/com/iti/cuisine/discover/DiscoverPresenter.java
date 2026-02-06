@@ -17,6 +17,8 @@ public interface DiscoverPresenter extends Presenter {
         void setRandomMeal(MealEntity meal);
         void setFirstIngredient(MealIngredientEntity ingredient);
         void setSecondIngredient(MealIngredientEntity ingredient);
+
+        void showMessage(int messageId);
     }
 
     void setView(DiscoverView view);

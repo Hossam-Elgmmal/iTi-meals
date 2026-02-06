@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.iti.cuisine.data.database_models.MealEntity;
 import com.iti.cuisine.data.database_models.MealIngredientEntity;
 import com.iti.cuisine.utils.glide.GlideManager;
 import com.iti.cuisine.utils.presenter.PresenterHost;
+import com.iti.cuisine.utils.snackbar.SnackbarBuilder;
 
 import java.util.List;
 
@@ -47,6 +49,8 @@ public class DiscoverFragment extends Fragment implements DiscoverPresenter.Disc
     private MaterialCardView secondIngredientCardView;
     private ImageView secondIngredientImageView;
     private TextView secondIngredientTitleTextView;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private TodayMealAdapter todayMealAdapter;
 
@@ -96,20 +100,36 @@ public class DiscoverFragment extends Fragment implements DiscoverPresenter.Disc
 
         todayMealRecyclerView.setAdapter(todayMealAdapter);
 
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
+
         presenterHost = (PresenterHost) requireActivity();
         presenter = presenterHost
                 .getPresenter(PRESENTER_KEY, DiscoverPresenterImpl::createNewInstance);
+
+        swipeRefreshLayout.setOnRefreshListener(presenter::refreshData);
+
         presenter.setView(this);
     }
 
     @Override
     public void showLoading() {
-        //todo
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-        //todo
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showMessage(int messageId) {
+        String message = getString(messageId);
+        SnackbarBuilder snackbarBuilder = new SnackbarBuilder();
+        SnackbarBuilder.SnackbarData data = snackbarBuilder
+                .setMessage(message)
+                .setBottomPadding(84)
+                .build();
+        presenterHost.showSnackbar(data);
     }
 
     @Override
@@ -120,11 +140,12 @@ public class DiscoverFragment extends Fragment implements DiscoverPresenter.Disc
         randomMealCardView
                 .setOnClickListener(v -> navigateToMealDetailScreen(meal.getId()));
 
+        randomMealCountryChip.setClickable(true);
         randomMealCountryChip
                 .setOnClickListener(v -> navigateToCountryScreen(meal.getCountry()));
 
         GlideManager.loadInto(meal.getThumbnail(), randomMealImageView);
-        GlideManager.loadInto(meal.getCountryFlagUrl(), randomMealImageView);
+        GlideManager.loadImageIntoChip(meal.getCountryFlagUrl(), randomMealCountryChip);
 
     }
 
@@ -166,9 +187,14 @@ public class DiscoverFragment extends Fragment implements DiscoverPresenter.Disc
     @Override
     public void onDestroyView() {
         presenter.removeView();
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDetach() {
         if (isRemoving()) {
             presenterHost.removePresenter(PRESENTER_KEY);
         }
-        super.onDestroyView();
+        super.onDetach();
     }
 }

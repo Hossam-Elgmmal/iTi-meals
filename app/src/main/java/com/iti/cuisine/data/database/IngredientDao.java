@@ -16,10 +16,10 @@ import io.reactivex.rxjava3.core.Flowable;
 public interface IngredientDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insert(IngredientEntity ingredient);
+    void insert(IngredientEntity ingredient);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insertAll(List<IngredientEntity> ingredients);
+    void insertAll(List<IngredientEntity> ingredients);
 
     @Query("SELECT * FROM ingredients")
     Flowable<List<IngredientEntity>> getAllIngredients();

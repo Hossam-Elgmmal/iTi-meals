@@ -85,7 +85,7 @@ public class TodayMealAdapter extends RecyclerView.Adapter<TodayMealAdapter.Toda
             countryChip.setOnClickListener(v -> onCountryClick.accept(mealEntity.getCountry()));
 
             GlideManager.loadInto(mealEntity.getThumbnail(), imageView);
-            GlideManager.loadInto(mealEntity.getCountryFlagUrl(), imageView);
+            GlideManager.loadImageIntoChip(mealEntity.getCountryFlagUrl(), countryChip);
         }
     }
 

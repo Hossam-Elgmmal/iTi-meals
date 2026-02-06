@@ -16,10 +16,10 @@ import io.reactivex.rxjava3.core.Flowable;
 public interface CategoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insert(CategoryEntity category);
+    void insert(CategoryEntity category);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insertAll(List<CategoryEntity> categories);
+    void insertAll(List<CategoryEntity> categories);
 
     @Query("SELECT * FROM categories")
     Flowable<List<CategoryEntity>> getAllCategories();
