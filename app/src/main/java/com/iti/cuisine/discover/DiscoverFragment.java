@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import com.iti.cuisine.R;
 
 
-public class DiscoverFragment extends Fragment {
+public class DiscoverFragment extends Fragment implements DiscoverPresenter.DiscoverView {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

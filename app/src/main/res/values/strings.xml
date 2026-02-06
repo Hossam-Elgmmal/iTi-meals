@@ -54,4 +54,8 @@
     <string name="plans">Plans</string>
     <string name="favorites">Favorites</string>
     <string name="profile">Profile</string>
+    <string name="picked_for_you">Picked for You</string>
+    <string name="meal_image">Meal Image</string>
+    <string name="star_ingredients">Star Ingredients</string>
+    <string name="today_s_meals">Today\'s Meals</string>
 </resources>
