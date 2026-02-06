@@ -12,13 +12,16 @@ public class CategoryEntity {
     @PrimaryKey
     private String id;
 
+    @NonNull
     private String title;
 
+    @NonNull
     private String thumbnail;
 
+    @NonNull
     private String description;
 
-    public CategoryEntity(@NonNull String id, String title, String thumbnail, String description) {
+    public CategoryEntity(@NonNull String id, @NonNull String title, @NonNull String thumbnail, @NonNull String description) {
         this.id = id;
         this.title = title;
         this.thumbnail = thumbnail;
@@ -34,27 +37,30 @@ public class CategoryEntity {
         this.id = id;
     }
 
+    @NonNull
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(@NonNull String title) {
         this.title = title;
     }
 
+    @NonNull
     public String getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(String thumbnail) {
+    public void setThumbnail(@NonNull String thumbnail) {
         this.thumbnail = thumbnail;
     }
 
+    @NonNull
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(@NonNull String description) {
         this.description = description;
     }
 }

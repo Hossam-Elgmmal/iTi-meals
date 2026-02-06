@@ -9,6 +9,6 @@ public class FilterResponseDto {
     public List<FilterMealDto> filterMeals;
 
     public List<FilterMealDto> getFilterMeals() {
-        return filterMeals;
+        return filterMeals == null ? List.of() : filterMeals;
     }
 }

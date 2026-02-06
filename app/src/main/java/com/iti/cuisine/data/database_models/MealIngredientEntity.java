@@ -17,11 +17,13 @@ public class MealIngredientEntity {
     @ColumnInfo(name = "title")
     private String title;
 
+    @NonNull
     private String measure;
 
+    @NonNull
     private String thumbnail;
 
-    public MealIngredientEntity(@NonNull String mealId, @NonNull String title, String measure, String thumbnail) {
+    public MealIngredientEntity(@NonNull String mealId, @NonNull String title, @NonNull String measure, @NonNull String thumbnail) {
         this.mealId = mealId;
         this.title = title;
         this.measure = measure;
@@ -46,19 +48,21 @@ public class MealIngredientEntity {
         this.title = title;
     }
 
+    @NonNull
     public String getMeasure() {
         return measure;
     }
 
-    public void setMeasure(String measure) {
+    public void setMeasure(@NonNull String measure) {
         this.measure = measure;
     }
 
+    @NonNull
     public String getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(String thumbnail) {
+    public void setThumbnail(@NonNull String thumbnail) {
         this.thumbnail = thumbnail;
     }
 }

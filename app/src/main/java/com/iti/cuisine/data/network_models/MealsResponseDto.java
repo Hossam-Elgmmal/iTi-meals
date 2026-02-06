@@ -10,6 +10,6 @@ public class MealsResponseDto {
     public List<MealDto> meals;
 
     public List<MealDto> getMeals() {
-        return meals;
+        return meals == null ? List.of() : meals;
     }
 }

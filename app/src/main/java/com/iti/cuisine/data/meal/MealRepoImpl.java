@@ -5,6 +5,7 @@ import android.app.Application;
 import com.iti.cuisine.data.database.CategoryDao;
 import com.iti.cuisine.data.database.CountryDao;
 import com.iti.cuisine.data.database.FavoriteDao;
+import com.iti.cuisine.data.database.FilterMealDao;
 import com.iti.cuisine.data.database.IngredientDao;
 import com.iti.cuisine.data.database.MealDao;
 import com.iti.cuisine.data.database.MealDatabase;
@@ -24,6 +25,7 @@ public class MealRepoImpl implements MealRepo {
     private final MealDao mealDao;
     private final MealIngredientDao mealIngredientDao;
     private final PlanMealDao planMealDao;
+    private final FilterMealDao filterMealDao;
 
     private final MealsService mealsService;
 
@@ -35,6 +37,7 @@ public class MealRepoImpl implements MealRepo {
         mealDao = mealDatabase.getMealDao();
         mealIngredientDao = mealDatabase.getMealIngredientDao();
         planMealDao = mealDatabase.getPlanMealDao();
+        filterMealDao = mealDatabase.getFilterMealDao();
 
         this.mealsService = mealsService;
     }

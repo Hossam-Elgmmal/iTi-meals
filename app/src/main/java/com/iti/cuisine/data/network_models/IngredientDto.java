@@ -4,11 +4,27 @@ import com.google.gson.annotations.SerializedName;
 
 public class IngredientDto {
     @SerializedName("idIngredient")
-    public String id;
+    private String id;
     @SerializedName("strIngredient")
-    public String title;
+    private String title;
     @SerializedName("strDescription")
-    public String description;
+    private String description;
     @SerializedName("strThumb")
-    public String thumbnail;
+    private String thumbnail;
+
+    public String getId() {
+        return id == null ? "" : id;
+    }
+
+    public String getTitle() {
+        return title == null ? "" : title;
+    }
+
+    public String getDescription() {
+        return description == null ? "" : description;
+    }
+
+    public String getThumbnail() {
+        return thumbnail == null ? "" : thumbnail;
+    }
 }

@@ -9,6 +9,6 @@ public class IngredientsResponseDto {
     private List<IngredientDto> ingredients;
 
     public List<IngredientDto> getIngredients() {
-        return ingredients;
+        return ingredients == null ? List.of() : ingredients;
     }
 }

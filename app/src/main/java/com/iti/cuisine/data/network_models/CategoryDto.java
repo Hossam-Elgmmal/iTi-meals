@@ -16,21 +16,18 @@ public class CategoryDto {
     private String description;
 
     public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        return id == null ? "" : id;
     }
 
     public String getTitle() {
-        return title;
+        return title == null ? "" : title;
+    }
+
+    public String getDescription() {
+        return description == null ? "" : description;
     }
 
     public String getThumbnail() {
-        return thumbnail;
-    }
-    public String getDescription() {
-        return description;
+        return thumbnail == null ? "" : thumbnail;
     }
 }

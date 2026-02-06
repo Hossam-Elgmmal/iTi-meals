@@ -1,5 +1,8 @@
 package com.iti.cuisine.data.network_models;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 public class CountryDto {
@@ -7,15 +10,17 @@ public class CountryDto {
     private String title;
 
     public String getTitle() {
-        return title;
+        return title == null ? "" : title;
     }
 
-    public String getFlagUrl() {
-        return "https://www.themealdb.com/images/icons/flags/big/128/" + getCountryCode() + ".png";
+    @NonNull
+    public static String getFlagUrl(@Nullable String title) {
+        return title == null ? ""
+                : "https://www.themealdb.com/images/icons/flags/big/128/" + getCountryCode(title) + ".png";
     }
 
-    private String getCountryCode() {
-        if (title == null) return "unknown";
+    @NonNull
+    private static String getCountryCode(@NonNull String title) {
 
         switch (title) {
             case "American":

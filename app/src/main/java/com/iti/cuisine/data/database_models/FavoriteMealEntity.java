@@ -12,11 +12,13 @@ public class FavoriteMealEntity {
     @PrimaryKey
     private String id;
 
-    public String title;
+    @NonNull
+    private String title;
 
+    @NonNull
     private String thumbnail;
 
-    public FavoriteMealEntity(@NonNull String id, String title, String thumbnail) {
+    public FavoriteMealEntity(@NonNull String id, @NonNull String title, @NonNull String thumbnail) {
         this.id = id;
         this.title = title;
         this.thumbnail = thumbnail;
@@ -31,19 +33,21 @@ public class FavoriteMealEntity {
         this.id = id;
     }
 
+    @NonNull
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(@NonNull String title) {
         this.title = title;
     }
 
+    @NonNull
     public String getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(String thumbnail) {
+    public void setThumbnail(@NonNull String thumbnail) {
         this.thumbnail = thumbnail;
     }
 }

@@ -4,9 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-
-@Entity(tableName = "ingredients")
-public class IngredientEntity {
+@Entity(tableName = "filter_meals")
+public class FilterMealEntity {
 
     @NonNull
     @PrimaryKey
@@ -16,15 +15,11 @@ public class IngredientEntity {
     private String title;
 
     @NonNull
-    private String description;
-
-    @NonNull
     private String thumbnail;
 
-    public IngredientEntity(@NonNull String id, @NonNull String title, @NonNull String description, @NonNull String thumbnail) {
+    public FilterMealEntity(@NonNull String id, @NonNull String title, @NonNull String thumbnail) {
         this.id = id;
         this.title = title;
-        this.description = description;
         this.thumbnail = thumbnail;
     }
 
@@ -44,15 +39,6 @@ public class IngredientEntity {
 
     public void setTitle(@NonNull String title) {
         this.title = title;
-    }
-
-    @NonNull
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(@NonNull String description) {
-        this.description = description;
     }
 
     @NonNull

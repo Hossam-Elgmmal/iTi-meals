@@ -12,25 +12,41 @@ public class MealEntity {
     @PrimaryKey
     private String id;
 
+    @NonNull
     private String title;
 
+    @NonNull
     private String category;
 
+    @NonNull
     private String country;
 
+    @NonNull
     private String countryFlagUrl;
 
+    @NonNull
     private String instructions;
 
+    @NonNull
     private String thumbnail;
 
+    @NonNull
     private String youtubeUrl;
 
-    public MealEntity(@NonNull String id, String title, String category, String country, String instructions, String thumbnail, String youtubeUrl) {
+    public MealEntity(@NonNull String id,
+                      @NonNull String title,
+                      @NonNull String category,
+                      @NonNull String country,
+                      @NonNull String countryFlagUrl,
+                      @NonNull String instructions,
+                      @NonNull String thumbnail,
+                      @NonNull String youtubeUrl
+    ) {
         this.id = id;
         this.title = title;
         this.category = category;
         this.country = country;
+        this.countryFlagUrl = countryFlagUrl;
         this.instructions = instructions;
         this.thumbnail = thumbnail;
         this.youtubeUrl = youtubeUrl;
@@ -45,59 +61,66 @@ public class MealEntity {
         this.id = id;
     }
 
+    @NonNull
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(@NonNull String title) {
         this.title = title;
     }
 
+    @NonNull
     public String getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(@NonNull String category) {
         this.category = category;
     }
 
+    @NonNull
     public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(@NonNull String country) {
         this.country = country;
     }
 
+    @NonNull
     public String getCountryFlagUrl() {
         return countryFlagUrl;
     }
 
-    public void setCountryFlagUrl(String countryFlagUrl) {
+    public void setCountryFlagUrl(@NonNull String countryFlagUrl) {
         this.countryFlagUrl = countryFlagUrl;
     }
 
+    @NonNull
     public String getInstructions() {
         return instructions;
     }
 
-    public void setInstructions(String instructions) {
+    public void setInstructions(@NonNull String instructions) {
         this.instructions = instructions;
     }
 
+    @NonNull
     public String getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(String thumbnail) {
+    public void setThumbnail(@NonNull String thumbnail) {
         this.thumbnail = thumbnail;
     }
 
+    @NonNull
     public String getYoutubeUrl() {
         return youtubeUrl;
     }
 
-    public void setYoutubeUrl(String youtubeUrl) {
+    public void setYoutubeUrl(@NonNull String youtubeUrl) {
         this.youtubeUrl = youtubeUrl;
     }
 }

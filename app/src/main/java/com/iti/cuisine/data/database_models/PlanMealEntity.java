@@ -12,13 +12,15 @@ public class PlanMealEntity {
     @PrimaryKey
     private String id;
 
+    @NonNull
     private String title;
 
+    @NonNull
     private String thumbnail;
 
     private long date;
 
-    public PlanMealEntity(@NonNull String id, String title, String thumbnail, long date) {
+    public PlanMealEntity(@NonNull String id, @NonNull String title, @NonNull String thumbnail, long date) {
         this.id = id;
         this.title = title;
         this.thumbnail = thumbnail;
@@ -34,19 +36,21 @@ public class PlanMealEntity {
         this.id = id;
     }
 
+    @NonNull
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(@NonNull String title) {
         this.title = title;
     }
 
+    @NonNull
     public String getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(String thumbnail) {
+    public void setThumbnail(@NonNull String thumbnail) {
         this.thumbnail = thumbnail;
     }
 

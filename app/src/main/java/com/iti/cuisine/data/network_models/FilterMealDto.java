@@ -11,14 +11,14 @@ public class FilterMealDto {
     private String id;
 
     public String getTitle() {
-        return title;
+        return title == null ? "" : title;
     }
 
     public String getThumbnail() {
-        return thumbnail;
+        return thumbnail == null ? "" : thumbnail;
     }
 
     public String getId() {
-        return id;
+        return id == null ? "" : id;
     }
 }

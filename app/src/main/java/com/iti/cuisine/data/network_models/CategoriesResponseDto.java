@@ -9,6 +9,6 @@ public class CategoriesResponseDto {
     private List<CategoryDto> categories;
 
     public List<CategoryDto> getCategories() {
-        return categories;
+        return categories == null ? List.of() : categories;
     }
 }

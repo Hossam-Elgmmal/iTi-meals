@@ -9,6 +9,6 @@ public class CountryResponseDto {
     private List<CountryDto> countries;
 
     public List<CountryDto> getCountries() {
-        return countries;
+        return countries == null ? List.of() : countries;
     }
 }

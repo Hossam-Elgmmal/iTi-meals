@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase;
 import com.iti.cuisine.data.database_models.CategoryEntity;
 import com.iti.cuisine.data.database_models.CountryEntity;
 import com.iti.cuisine.data.database_models.FavoriteMealEntity;
+import com.iti.cuisine.data.database_models.FilterMealEntity;
 import com.iti.cuisine.data.database_models.IngredientEntity;
 import com.iti.cuisine.data.database_models.MealEntity;
 import com.iti.cuisine.data.database_models.MealIngredientEntity;
@@ -16,7 +17,7 @@ import com.iti.cuisine.data.database_models.PlanMealEntity;
 
 @Database(entities = {CategoryEntity.class, CountryEntity.class,
         FavoriteMealEntity.class, IngredientEntity.class, MealEntity.class,
-        MealIngredientEntity.class, PlanMealEntity.class
+        MealIngredientEntity.class, PlanMealEntity.class, FilterMealEntity.class
 }, version = 1)
 public abstract class MealDatabase extends RoomDatabase {
 
@@ -49,5 +50,7 @@ public abstract class MealDatabase extends RoomDatabase {
     public abstract MealIngredientDao getMealIngredientDao();
 
     public abstract PlanMealDao getPlanMealDao();
+
+    public abstract FilterMealDao getFilterMealDao();
 
 }

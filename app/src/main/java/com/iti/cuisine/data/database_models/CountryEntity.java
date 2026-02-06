@@ -10,11 +10,12 @@ public class CountryEntity {
 
     @NonNull
     @PrimaryKey
-    public String title;
+    private String title;
 
-    public String flagUrl;
+    @NonNull
+    private String flagUrl;
 
-    public CountryEntity(@NonNull String title, String flagUrl) {
+    public CountryEntity(@NonNull String title, @NonNull String flagUrl) {
         this.title = title;
         this.flagUrl = flagUrl;
     }
@@ -28,11 +29,12 @@ public class CountryEntity {
         this.title = title;
     }
 
+    @NonNull
     public String getFlagUrl() {
         return flagUrl;
     }
 
-    public void setFlagUrl(String flagUrl) {
+    public void setFlagUrl(@NonNull String flagUrl) {
         this.flagUrl = flagUrl;
     }
 }

@@ -1,5 +1,7 @@
 package com.iti.cuisine.data.network_models;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -114,31 +116,31 @@ public class MealDto {
     }
 
     public String getId() {
-        return id;
+        return id == null ? "" : id;
     }
 
     public String getTitle() {
-        return title;
+        return title == null ? "" : title;
     }
 
     public String getCategory() {
-        return category;
+        return category == null ? "" : category;
     }
 
     public String getCountry() {
-        return country;
+        return country == null ? "" : country;
     }
 
     public String getInstructions() {
-        return instructions;
+        return instructions == null ? "" : instructions;
     }
 
     public String getThumbnail() {
-        return thumbnail + "/large";
+        return thumbnail == null ? "" : thumbnail + "/large";
     }
 
     public String getYoutubeUrl() {
-        return youtubeUrl;
+        return youtubeUrl == null ? "" : youtubeUrl;
     }
 
     public List<String> getIngredients() {
@@ -191,44 +193,60 @@ public class MealDto {
         return measures;
     }
 
-    public List<MealIngredient> getIngredientsWithMeasures() {
-        List<MealIngredient> result = new ArrayList<>();
+    public List<MealIngredientDto> getIngredientsWithMeasures() {
+        List<MealIngredientDto> result = new ArrayList<>();
         List<String> ingredients = getIngredients();
         List<String> measures = getMeasures();
 
         for (int i = 0; i < ingredients.size(); i++) {
             String measure = i < measures.size() ? measures.get(i) : "";
-            result.add(new MealIngredient(ingredients.get(i), measure));
+            result.add(new MealIngredientDto(getId(), ingredients.get(i), measure));
         }
 
         return result;
     }
 
     private void addIfNotEmpty(List<String> list, String value) {
-        if (value != null && !value.trim().isEmpty()) {
+        if (value != null && !value.isBlank()) {
             list.add(value);
         }
     }
 
-    public static class MealIngredient {
+    public static class MealIngredientDto {
+
+        @NonNull
+        private final String mealId;
+
+        @NonNull
         private final String title;
+
+        @NonNull
         private final String measure;
 
-        public MealIngredient(String name, String measure) {
+        public MealIngredientDto(@NonNull String mealId, @NonNull String name, @NonNull String measure) {
+            this.mealId = mealId;
             this.title = name.replaceAll("\\s", "_");
             this.measure = measure;
         }
 
+        @NonNull
+        public String getMealId() {
+            return mealId;
+        }
+
+        @NonNull
         public String getTitle() {
             return title;
         }
 
+        @NonNull
         public String getMeasure() {
             return measure;
         }
 
-        public String getImageUrl() {
-            return "https://www.themealdb.com/images/ingredients/" + title + "-Small.png";
+        @NonNull
+        public String getThumbnail() {
+            return "https://www.themealdb.com/images/ingredients/" + title + "-large.png";
         }
     }
 }
