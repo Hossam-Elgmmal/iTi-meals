@@ -13,6 +13,8 @@ import com.iti.cuisine.data.database.PlanMealDao;
 import com.iti.cuisine.data.network.MealsService;
 import com.iti.cuisine.data.network.RetrofitManager;
 
+import io.reactivex.rxjava3.core.Completable;
+
 public class MealRepoImpl implements MealRepo {
 
     private final CategoryDao categoryDao;
@@ -39,16 +41,25 @@ public class MealRepoImpl implements MealRepo {
 
     private static volatile MealRepoImpl instance;
 
-    public static MealRepo getInstance(Application application) {
-        if (instance == null) {
-            synchronized (MealRepoImpl.class) {
-                if (instance == null) {
-                    MealDatabase mealDatabase = MealDatabase.getInstance(application);
-                    MealsService mealsService = new RetrofitManager().getMealsService(application);
-                    instance = new MealRepoImpl(mealDatabase, mealsService);
+    public static Completable initialize(Application application) {
+        return Completable.create(
+                emitter -> {
+                    if (instance == null) {
+                        synchronized (MealRepoImpl.class) {
+                            if (instance == null) {
+                                MealDatabase mealDatabase = MealDatabase.getInstance(application);
+                                MealsService mealsService = new RetrofitManager().getMealsService(application);
+                                instance = new MealRepoImpl(mealDatabase, mealsService);
+                                emitter.onComplete();
+                            }
+                        }
+                    }
+                    emitter.onComplete();
                 }
-            }
-        }
+        );
+    }
+
+    public static MealRepo getInstance() {
         return instance;
     }
 

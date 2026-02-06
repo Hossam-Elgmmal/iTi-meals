@@ -112,7 +112,7 @@
                         tools:text="Spaghetti Carbonara" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/random_meal_area_chip"
+                        android:id="@+id/random_meal_country_chip"
                         style="@style/Widget.Material3.Chip.Assist"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -169,7 +169,7 @@
                         app:shapeAppearanceOverlay="@style/CircleImage"
                         tools:src="@drawable/img_loading_placeholder" />
 
-                    <com.google.android.material.textview.MaterialTextView
+                    <TextView
                         android:id="@+id/first_ingredient_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -215,7 +215,7 @@
                         app:shapeAppearanceOverlay="@style/CircleImage"
                         tools:src="@drawable/img_loading_placeholder" />
 
-                    <com.google.android.material.textview.MaterialTextView
+                    <TextView
                         android:id="@+id/second_ingredient_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -252,6 +252,7 @@
                 android:layout_marginTop="16dp"
                 android:clipChildren="false"
                 android:clipToPadding="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="@id/right_guideline"
                 app:layout_constraintStart_toStartOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/materialTextView3"

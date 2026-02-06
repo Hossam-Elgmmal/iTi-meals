@@ -18,6 +18,8 @@ public class MealEntity {
 
     private String country;
 
+    private String countryFlagUrl;
+
     private String instructions;
 
     private String thumbnail;
@@ -65,6 +67,14 @@ public class MealEntity {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getCountryFlagUrl() {
+        return countryFlagUrl;
+    }
+
+    public void setCountryFlagUrl(String countryFlagUrl) {
+        this.countryFlagUrl = countryFlagUrl;
     }
 
     public String getInstructions() {
