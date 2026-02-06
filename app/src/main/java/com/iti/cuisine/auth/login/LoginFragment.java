@@ -21,9 +21,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.iti.cuisine.MainActivity;
 import com.iti.cuisine.R;
 import com.iti.cuisine.utils.google_credentials.GoogleSignInManager;
+import com.iti.cuisine.utils.presenter.PresenterHost;
 import com.iti.cuisine.utils.snackbar.SnackbarBuilder;
 
 import io.reactivex.rxjava3.core.Single;
@@ -46,6 +46,7 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
     private LoginPresenter presenter;
 
     private CredentialManager credentialManager;
+    private PresenterHost presenterHost;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,9 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
         emailTextInputLayout = view.findViewById(R.id.email_text_input_layout);
         passwordTextInputLayout = view.findViewById(R.id.password_text_input_layout);
 
-        presenter = ((MainActivity) requireActivity())
+        presenterHost = (PresenterHost) requireActivity();
+
+        presenter = presenterHost
                 .getPresenter(PRESENTER_KEY, LoginPresenterImpl::createNewInstance);
         presenter.setView(this);
     }
@@ -154,12 +157,12 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
 
     @Override
     public void showLoading() {
-        ((MainActivity) requireActivity()).showLoadingDialog();
+        presenterHost.showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-        ((MainActivity) requireActivity()).hideLoadingDialog();
+        presenterHost.hideLoadingDialog();
     }
 
     @Override
@@ -168,7 +171,7 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
         SnackbarBuilder snackbarBuilder = new SnackbarBuilder();
         SnackbarBuilder.SnackbarData data = snackbarBuilder
                 .setMessage(message).build();
-        ((MainActivity) requireActivity()).showSnackbar(data);
+        presenterHost.showSnackbar(data);
     }
 
     @Override
@@ -182,7 +185,7 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
     public void onDestroyView() {
         presenter.removeView();
         if (isRemoving()) {
-            ((MainActivity) requireActivity()).removePresenter(PRESENTER_KEY);
+            presenterHost.removePresenter(PRESENTER_KEY);
         }
         super.onDestroyView();
     }

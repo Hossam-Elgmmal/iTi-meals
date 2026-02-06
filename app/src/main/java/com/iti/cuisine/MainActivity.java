@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.iti.cuisine.utils.loading.LoadingDialog;
 import com.iti.cuisine.utils.presenter.Presenter;
+import com.iti.cuisine.utils.presenter.PresenterHost;
 import com.iti.cuisine.utils.presenter.PresenterStore;
 import com.iti.cuisine.utils.presenter.PresenterStoreImpl;
 import com.iti.cuisine.utils.snackbar.SnackbarBuilder;
@@ -14,7 +15,7 @@ import com.iti.cuisine.utils.snackbar.SnackbarManager;
 
 import java.util.function.Supplier;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PresenterHost {
 
     private PresenterStore presenterStore;
     private LoadingDialog loadingDialog;
@@ -30,22 +31,27 @@ public class MainActivity extends AppCompatActivity {
         snackbarManager = new SnackbarManager();
     }
 
+    @Override
     public <T extends Presenter> T getPresenter(String key, Supplier<T> factory) {
         return presenterStore.get(key, factory);
     }
 
+    @Override
     public void removePresenter(String key) {
         presenterStore.remove(key);
     }
 
+    @Override
     public void showLoadingDialog() {
         loadingDialog.show();
     }
 
+    @Override
     public void hideLoadingDialog() {
         loadingDialog.dismiss();
     }
 
+    @Override
     public void showSnackbar(SnackbarBuilder.SnackbarData data) {
         snackbarManager.showSnackbar(data, this, findViewById(R.id.main_fragment_container));
     }

@@ -21,9 +21,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.iti.cuisine.MainActivity;
 import com.iti.cuisine.R;
 import com.iti.cuisine.utils.google_credentials.GoogleSignInManager;
+import com.iti.cuisine.utils.presenter.PresenterHost;
 import com.iti.cuisine.utils.snackbar.SnackbarBuilder;
 
 import io.reactivex.rxjava3.core.Single;
@@ -49,6 +49,7 @@ public class SignUpFragment extends Fragment implements SignUpPresenter.SignUpVi
     private SignUpPresenter presenter;
 
     private CredentialManager credentialManager;
+    private PresenterHost presenterHost;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,9 @@ public class SignUpFragment extends Fragment implements SignUpPresenter.SignUpVi
         confirmPasswordEditText = view.findViewById(R.id.confirm_password_edit_text);
         confirmPasswordTextInputLayout = view.findViewById(R.id.confirm_password_text_input_layout);
 
-        presenter = ((MainActivity) requireActivity())
+        presenterHost = (PresenterHost) requireActivity();
+
+        presenter = presenterHost
                 .getPresenter(PRESENTER_KEY, SignUpPresenterImpl::createNewInstance);
         presenter.setView(this);
     }
@@ -136,12 +139,12 @@ public class SignUpFragment extends Fragment implements SignUpPresenter.SignUpVi
 
     @Override
     public void showLoading() {
-        ((MainActivity) requireActivity()).showLoadingDialog();
+        presenterHost.showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-        ((MainActivity) requireActivity()).hideLoadingDialog();
+        presenterHost.hideLoadingDialog();
     }
 
     @Override
@@ -194,7 +197,7 @@ public class SignUpFragment extends Fragment implements SignUpPresenter.SignUpVi
         SnackbarBuilder snackbarBuilder = new SnackbarBuilder();
         SnackbarBuilder.SnackbarData data = snackbarBuilder
                 .setMessage(message).build();
-        ((MainActivity) requireActivity()).showSnackbar(data);
+        presenterHost.showSnackbar(data);
     }
 
     @Override
@@ -208,7 +211,7 @@ public class SignUpFragment extends Fragment implements SignUpPresenter.SignUpVi
     public void onDestroyView() {
         presenter.removeView();
         if (isRemoving()) {
-            ((MainActivity) requireActivity()).removePresenter(PRESENTER_KEY);
+            presenterHost.removePresenter(PRESENTER_KEY);
         }
         super.onDestroyView();
     }
