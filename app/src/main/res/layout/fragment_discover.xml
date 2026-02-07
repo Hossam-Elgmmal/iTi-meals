@@ -27,17 +27,19 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSearch"
                 style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:insetLeft="0dp"
+                android:layout_marginEnd="12dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
                 android:layout_gravity="end"
-                android:layout_marginEnd="10dp"
-                android:contentDescription="@string/search"
-                android:gravity="center"
                 app:icon="@drawable/ic_search"
-                app:iconGravity="textStart"
-                app:iconPadding="0dp"
                 app:iconSize="24dp"
-                app:rippleColor="@color/md_theme_outlineVariant" />
+                app:rippleColor="@color/md_theme_ripple"
+                android:contentDescription="@string/search" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 

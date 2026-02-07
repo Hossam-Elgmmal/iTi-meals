@@ -62,4 +62,10 @@
     <string name="service_temporarily_unavailable">⚠️ Service temporarily unavailable. Please try again later.</string>
     <string name="no_meals_available_right_now">⚠️ No meals available right now</string>
     <string name="something_went_wrong_please_try_again">⚠️ Something went wrong. Please try again.</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="navigate_back">Navigate Back</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="instructions">Instructions</string>
+    <string name="watch_now">Watch now</string>
+    <string name="add_to_plan">Add To Plan</string>
 </resources>

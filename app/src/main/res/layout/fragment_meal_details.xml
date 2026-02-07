@@ -1,16 +1,248 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/details_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".meal_details.MealDetailsFragment">
 
 
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
+        style="@style/Widget.Material3.AppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            style="@style/Widget.Material3.CollapsingToolbar.Large"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@null"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:statusBarScrim="@null">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/meal_image"
+                android:scaleType="centerCrop"
+                android:src="@drawable/logo" />
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                style="@style/Widget.Material3.Toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:actionBarSize"
+                android:background="@android:color/transparent"
+                app:layout_collapseMode="pin"
+                app:title="@null">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBack"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_gravity="start"
+                    android:contentDescription="@string/navigate_back"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="16dp"
+                    app:icon="@drawable/ic_arrow_back"
+                    app:iconSize="24dp"
+                    app:rippleColor="@color/md_theme_ripple"
+                    app:strokeColor="@color/md_theme_ripple"
+                    app:strokeWidth="1dp" />
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/logo" />
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Meal Details"
-        android:textSize="24sp"
-        android:gravity="center" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</FrameLayout>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingTop="16dp"
+                android:paddingBottom="?attr/actionBarSize">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/left_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="20dp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/right_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="20dp" />
+
+
+                <TextView
+                    android:id="@+id/meal_title"
+                    style="@style/TextAppearance.Cuisine.HeadlineSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toStartOf="@+id/btnFavorite"
+                    app:layout_constraintStart_toStartOf="@id/left_guideline"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Burger" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnFavorite"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/add_to_favorites"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="12dp"
+                    app:icon="@drawable/ic_favorites"
+                    app:iconSize="24dp"
+                    app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:rippleColor="@color/md_theme_ripple" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/meal_country_chip"
+                    style="@style/Widget.Material3.Chip.Assist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="false"
+                    android:text="@string/app_name"
+                    android:textAppearance="@style/TextAppearance.Cuisine.ItalicLabelLarge"
+                    app:chipIcon="@drawable/logo"
+                    app:chipIconSize="24dp"
+                    app:chipIconTint="@null"
+                    app:layout_constraintStart_toStartOf="@id/left_guideline"
+                    app:layout_constraintTop_toBottomOf="@id/meal_title" />
+
+                <TextView
+                    android:id="@+id/ingredients_title"
+                    style="@style/TextAppearance.Cuisine.TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/ingredients"
+                    app:layout_constraintStart_toStartOf="@id/left_guideline"
+                    app:layout_constraintTop_toBottomOf="@id/meal_country_chip" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ingredients_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ingredients_title"
+                    tools:listitem="@layout/item_ingredient" />
+
+
+                <TextView
+                    android:id="@+id/instructions_title"
+                    style="@style/TextAppearance.Cuisine.TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/instructions"
+                    app:layout_constraintStart_toStartOf="@id/left_guideline"
+                    app:layout_constraintTop_toBottomOf="@id/ingredients_recycler_view" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/steps_recycler_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/right_guideline"
+                    app:layout_constraintStart_toStartOf="@id/left_guideline"
+                    app:layout_constraintTop_toBottomOf="@id/instructions_title"
+                    tools:listitem="@layout/item_instruction" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@android:color/transparent"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:text="@string/add_to_plan"
+                android:textAppearance="@style/TextAppearance.Cuisine.TitleMedium"
+                app:icon="@drawable/ic_add_to_calendar"
+                app:iconPadding="0dp"
+                app:iconSize="24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/watch_now"
+                android:textAppearance="@style/TextAppearance.Cuisine.TitleMedium"
+                app:icon="@drawable/ic_play"
+                app:iconGravity="end"
+                app:iconPadding="0dp"
+                app:iconSize="24dp" />
+        </LinearLayout>
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
