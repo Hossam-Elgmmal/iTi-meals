@@ -102,4 +102,42 @@
         android:name="com.iti.cuisine.auth.forgot_password.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
+    <fragment
+        android:id="@+id/mealDetailsFragment"
+        android:name="com.iti.cuisine.meal_details.MealDetailsFragment"
+        android:label="fragment_meal_details"
+        tools:layout="@layout/fragment_meal_details" >
+        <argument
+            android:name="mealId"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_mealDetailsFragment"
+        app:destination="@id/mealDetailsFragment"
+        app:enterAnim="@anim/slide_in_from_right"
+        app:exitAnim="@anim/slide_out_to_left"
+        app:popUpToInclusive="true"
+        app:popEnterAnim="@anim/slide_in_from_left"
+        app:popExitAnim="@anim/slide_out_to_right"
+        app:launchSingleTop="true" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.iti.cuisine.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <argument
+            android:name="searchItem"
+            app:argType="string" />
+        <argument
+            android:name="searchMode"
+            app:argType="integer" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_searchFragment"
+        app:destination="@id/searchFragment"
+        app:enterAnim="@anim/slide_in_from_right"
+        app:exitAnim="@anim/slide_out_to_left"
+        app:popEnterAnim="@anim/slide_in_from_left"
+        app:popExitAnim="@anim/slide_out_to_right"
+        app:launchSingleTop="true" />
 </navigation>

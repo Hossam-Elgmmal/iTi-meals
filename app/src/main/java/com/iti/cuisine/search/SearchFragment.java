@@ -18,9 +18,15 @@ import com.iti.cuisine.R;
 
 public class SearchFragment extends Fragment {
 
+    private String searchItem;
+    private int searchMode;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SearchFragmentArgs args = SearchFragmentArgs.fromBundle(getArguments());
+        searchItem = args.getSearchItem();
+        searchMode = args.getSearchMode();
     }
 
     @Override
@@ -34,7 +40,7 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.search_root), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, 0, systemBars.right, 0);
+            v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom);
             return insets;
         });
     }

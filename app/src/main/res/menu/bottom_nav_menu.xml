@@ -6,10 +6,6 @@
         android:icon="@drawable/ic_discover_selector"
         android:title="@string/discover" />
     <item
-        android:id="@+id/searchFragment"
-        android:icon="@drawable/ic_search_selector"
-        android:title="@string/search" />
-    <item
         android:id="@+id/plansFragment"
         android:icon="@drawable/ic_calendar_selector"
         android:title="@string/plans" />

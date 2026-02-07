@@ -11,11 +11,6 @@
         android:label="fragment_discover"
         tools:layout="@layout/fragment_discover" />
     <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.iti.cuisine.search.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search"/>
-    <fragment
         android:id="@+id/plansFragment"
         android:name="com.iti.cuisine.plans.PlansFragment"
         android:label="fragment_plans"

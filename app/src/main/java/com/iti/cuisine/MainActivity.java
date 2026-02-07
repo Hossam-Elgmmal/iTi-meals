@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.iti.cuisine.utils.loading.LoadingDialog;
 import com.iti.cuisine.utils.presenter.Presenter;
@@ -54,6 +56,11 @@ public class MainActivity extends AppCompatActivity implements PresenterHost {
     @Override
     public void showSnackbar(SnackbarBuilder.SnackbarData data) {
         snackbarManager.showSnackbar(data, this, findViewById(R.id.main_fragment_container));
+    }
+
+    @Override
+    public void navigate(NavDirections action) {
+        Navigation.findNavController(this, R.id.main_fragment_container).navigate(action);
     }
 
     @Override

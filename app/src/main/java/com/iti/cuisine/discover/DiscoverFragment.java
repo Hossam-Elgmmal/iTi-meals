@@ -8,20 +8,24 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
+import com.iti.cuisine.MainNavGraphDirections;
 import com.iti.cuisine.R;
 import com.iti.cuisine.data.database_models.MealEntity;
 import com.iti.cuisine.data.database_models.MealIngredientEntity;
+import com.iti.cuisine.search.SearchMode;
 import com.iti.cuisine.utils.glide.GlideManager;
 import com.iti.cuisine.utils.presenter.PresenterHost;
 import com.iti.cuisine.utils.snackbar.SnackbarBuilder;
@@ -51,6 +55,9 @@ public class DiscoverFragment extends Fragment implements DiscoverPresenter.Disc
     private TextView secondIngredientTitleTextView;
 
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private MaterialCardView loadingOneCardView;
+    private MaterialCardView loadingTwoCardView;
 
     private TodayMealAdapter todayMealAdapter;
 
@@ -92,13 +99,19 @@ public class DiscoverFragment extends Fragment implements DiscoverPresenter.Disc
         secondIngredientImageView = view.findViewById(R.id.second_ingredient_image);
         secondIngredientTitleTextView = view.findViewById(R.id.second_ingredient_title);
 
+        loadingOneCardView = view.findViewById(R.id.loading_card_view_1);
+        loadingTwoCardView = view.findViewById(R.id.loading_card_view_2);
+
         RecyclerView todayMealRecyclerView = view.findViewById(R.id.today_meal_recycler);
         todayMealAdapter = new TodayMealAdapter(List.of());
 
         todayMealAdapter.setOnItemClick(this::navigateToMealDetailScreen);
-        todayMealAdapter.setOnCountryClick(this::navigateToCountryScreen);
+        todayMealAdapter.setOnCountryClick(this::navigateToSearchCountryScreen);
 
         todayMealRecyclerView.setAdapter(todayMealAdapter);
+
+        Button searchButton = view.findViewById(R.id.btnSearch);
+        searchButton.setOnClickListener(v -> navigateToSearchScreen("", SearchMode.NONE));
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
 
@@ -142,7 +155,7 @@ public class DiscoverFragment extends Fragment implements DiscoverPresenter.Disc
 
         randomMealCountryChip.setClickable(true);
         randomMealCountryChip
-                .setOnClickListener(v -> navigateToCountryScreen(meal.getCountry()));
+                .setOnClickListener(v -> navigateToSearchCountryScreen(meal.getCountry()));
 
         GlideManager.loadInto(meal.getThumbnail(), randomMealImageView);
         GlideManager.loadImageIntoChip(meal.getCountryFlagUrl(), randomMealCountryChip);
@@ -152,36 +165,52 @@ public class DiscoverFragment extends Fragment implements DiscoverPresenter.Disc
     @Override
     public void setFirstIngredient(MealIngredientEntity ingredient) {
         firstIngredientTitleTextView.setText(ingredient.getTitle());
-        firstIngredientCardView.setOnClickListener(v -> {
-            navigateToIngredientScreen(ingredient.getTitle());
-        });
+        firstIngredientCardView
+                .setOnClickListener(v -> navigateToSearchIngredientScreen(ingredient.getTitle()));
         GlideManager.loadInto(ingredient.getThumbnail(), firstIngredientImageView);
     }
 
     @Override
     public void setSecondIngredient(MealIngredientEntity ingredient) {
         secondIngredientTitleTextView.setText(ingredient.getTitle());
-        secondIngredientCardView.setOnClickListener(v -> {
-            navigateToIngredientScreen(ingredient.getTitle());
-        });
+        secondIngredientCardView
+                .setOnClickListener(v -> navigateToSearchIngredientScreen(ingredient.getTitle()));
         GlideManager.loadInto(ingredient.getThumbnail(), secondIngredientImageView);
     }
 
     @Override
     public void setTodayMeals(List<MealEntity> meals) {
+        if (meals.isEmpty()) {
+            loadingOneCardView.setVisibility(View.VISIBLE);
+            loadingTwoCardView.setVisibility(View.VISIBLE);
+            return;
+        } else {
+            loadingOneCardView.setVisibility(View.GONE);
+            loadingTwoCardView.setVisibility(View.GONE);
+        }
         todayMealAdapter.setTodayMeals(meals);
     }
 
     public void navigateToMealDetailScreen(String mealId) {
-        //todo
+        NavDirections action = MainNavGraphDirections
+                .actionGlobalMealDetailsFragment(mealId);
+
+        presenterHost.navigate(action);
     }
 
-    public void navigateToIngredientScreen(String ingredientTitle) {
-        //todo
+    public void navigateToSearchIngredientScreen(String ingredientTitle) {
+        navigateToSearchScreen(ingredientTitle, SearchMode.INGREDIENT);
     }
 
-    public void navigateToCountryScreen(String countryTitle) {
-        //todo
+    public void navigateToSearchCountryScreen(String countryTitle) {
+        navigateToSearchScreen(countryTitle, SearchMode.COUNTRY);
+    }
+
+    private void navigateToSearchScreen(String countryTitle, SearchMode country) {
+        NavDirections action = MainNavGraphDirections
+                .actionGlobalSearchFragment(countryTitle, country.getMode());
+
+        presenterHost.navigate(action);
     }
 
     @Override

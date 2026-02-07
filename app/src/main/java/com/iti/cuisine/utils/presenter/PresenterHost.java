@@ -1,5 +1,7 @@
 package com.iti.cuisine.utils.presenter;
 
+import androidx.navigation.NavDirections;
+
 import com.iti.cuisine.utils.snackbar.SnackbarBuilder;
 
 import java.util.function.Supplier;
@@ -15,4 +17,6 @@ public interface PresenterHost {
     void hideLoadingDialog();
 
     void showSnackbar(SnackbarBuilder.SnackbarData data);
+
+    void navigate(NavDirections action);
 }
