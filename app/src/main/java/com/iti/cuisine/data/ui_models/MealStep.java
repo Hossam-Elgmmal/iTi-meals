@@ -24,23 +24,23 @@ public class MealStep {
         List<MealStep> steps = new ArrayList<>();
 
         String cleaned = rawText
-                .replace("\\r\\n", "\n")
-                .replace("\\n", "\n")
+                .replaceAll("[\r\n]+", " ")
+                .replaceAll("(?i)step\\s*\\d*:?", "")
+                .replaceAll("\\s+", " ")
                 .trim();
 
-        String[] parts = cleaned.split("(?i)step\\s+\\d+");
+        String[] sentences = cleaned.split("(?<=[.!?])\\s+");
 
         int stepNumber = 1;
 
-        for (int i = 1; i < parts.length; i++) {
-            String content = parts[i].trim();
+        for (String sentence : sentences) {
+            String content = sentence.trim();
 
-            content = content.replaceAll("\n{3,}", "\n\n");
-
-            String title = "Step " + stepNumber;
-
-            steps.add(new MealStep(title, content));
-            stepNumber++;
+            if (!content.isEmpty() && !content.matches("\\d+[.!?]*")) {
+                String title = "Step " + stepNumber;
+                steps.add(new MealStep(title, content));
+                stepNumber++;
+            }
         }
 
         return steps;

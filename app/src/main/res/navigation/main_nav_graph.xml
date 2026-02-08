@@ -140,4 +140,20 @@
         app:popEnterAnim="@anim/slide_in_from_left"
         app:popExitAnim="@anim/slide_out_to_right"
         app:launchSingleTop="true" />
+    <fragment
+        android:id="@+id/videoFragment"
+        android:name="com.iti.cuisine.video.VideoFragment"
+        android:label="fragment_video"
+        tools:layout="@layout/fragment_video" >
+        <argument
+            android:name="videoUrl"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_videoFragment"
+        app:destination="@id/videoFragment"
+        app:enterAnim="@anim/slide_in_from_right"
+        app:exitAnim="@anim/slide_out_to_left"
+        app:popEnterAnim="@anim/slide_in_from_left"
+        app:popExitAnim="@anim/slide_out_to_right" />
 </navigation>

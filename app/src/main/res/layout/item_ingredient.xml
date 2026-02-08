@@ -5,18 +5,18 @@
     android:id="@+id/ingredient_card"
     style="@style/Widget.Material3.CardView.Elevated"
     android:layout_width="160dp"
-    android:layout_marginHorizontal="8dp"
-    android:layout_height="180dp">
+    android:layout_margin="8dp"
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:padding="8dp"
+        android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ingredient_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="16dp"
             android:background="@color/md_theme_surface"
             android:elevation="4dp"
             android:scaleType="centerCrop"
@@ -32,17 +32,30 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:ellipsize="end"
-            android:paddingVertical="8dp"
-            android:paddingHorizontal="8dp"
             android:maxLines="2"
             android:minLines="2"
             android:gravity="center"
             android:textAppearance="@style/TextAppearance.Cuisine.TitleMedium"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ingredient_image"
             tools:text="Lemon" />
+
+        <TextView
+            android:id="@+id/ingredient_measure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.Cuisine.LabelLarge"
+            android:fontFamily="@font/nunito_bold_italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ingredient_title"
+            tools:text="2 tsp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

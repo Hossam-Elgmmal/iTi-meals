@@ -8,7 +8,7 @@
     android:layout_margin="8dp">
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/instruction_title"
+        android:id="@+id/meal_step_title"
         style="@style/TextAppearance.Cuisine.LabelLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,13 +21,13 @@
         tools:text="1" />
 
     <TextView
-        android:id="@+id/instruction_details"
+        android:id="@+id/meal_step_details"
         style="@style/TextAppearance.Cuisine.BodyLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/instruction_title"
+        app:layout_constraintTop_toBottomOf="@id/meal_step_title"
         tools:text="put the pasta in the oven" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

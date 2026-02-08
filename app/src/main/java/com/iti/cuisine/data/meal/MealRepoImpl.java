@@ -12,6 +12,7 @@ import com.iti.cuisine.data.database.MealDao;
 import com.iti.cuisine.data.database.MealDatabase;
 import com.iti.cuisine.data.database.MealIngredientDao;
 import com.iti.cuisine.data.database.PlanMealDao;
+import com.iti.cuisine.data.database_models.FavoriteMealEntity;
 import com.iti.cuisine.data.database_models.MealEntity;
 import com.iti.cuisine.data.database_models.MealIngredientEntity;
 import com.iti.cuisine.data.database_models.MealWithIngredients;
@@ -147,6 +148,31 @@ public class MealRepoImpl implements MealRepo {
     public Flowable<List<MealEntity>> getMealsByLetter(String letter) {
 
         return mealDao.getMealsByFirstLetter(letter)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Completable fetchMealById(String mealId) {
+        return mealsService.getMealById(mealId)
+                .flatMapCompletable(response -> saveAllMealsToDatabase(response.getMeals()))
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Flowable<List<FavoriteMealEntity>> getFavoriteMealById(String mealId) {
+        return favoriteDao.getFavoriteMealById(mealId)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Completable insertFavoriteMeal(FavoriteMealEntity favoriteMealEntity) {
+        return favoriteDao.insert(favoriteMealEntity)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Completable deleteFavoriteMealById(String id) {
+        return favoriteDao.deleteFavoriteMealById(id)
                 .subscribeOn(Schedulers.io());
     }
 }

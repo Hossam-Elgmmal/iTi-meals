@@ -64,6 +64,11 @@ public class MainActivity extends AppCompatActivity implements PresenterHost {
     }
 
     @Override
+    public void navigateBack() {
+        Navigation.findNavController(this, R.id.main_fragment_container).navigateUp();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         if (isFinishing()) {

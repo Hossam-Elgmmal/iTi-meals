@@ -25,7 +25,7 @@ public interface FavoriteDao {
     Flowable<List<FavoriteMealEntity>> getAllFavoriteMeals();
 
     @Query("SELECT * FROM favoriteMeals WHERE id = :mealId")
-    Flowable<FavoriteMealEntity> getFavoriteMealById(String mealId);
+    Flowable<List<FavoriteMealEntity>> getFavoriteMealById(String mealId);
 
     @Query("DELETE FROM favoriteMeals WHERE id = :mealId")
     Completable deleteFavoriteMealById(String mealId);

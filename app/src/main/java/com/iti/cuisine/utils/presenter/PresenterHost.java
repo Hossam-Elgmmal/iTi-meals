@@ -19,4 +19,6 @@ public interface PresenterHost {
     void showSnackbar(SnackbarBuilder.SnackbarData data);
 
     void navigate(NavDirections action);
+
+    void navigateBack();
 }

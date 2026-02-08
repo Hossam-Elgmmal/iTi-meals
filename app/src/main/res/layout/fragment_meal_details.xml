@@ -25,6 +25,7 @@
             app:statusBarScrim="@null">
 
             <ImageView
+                android:id="@+id/meal_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/meal_image"
@@ -130,6 +131,7 @@
                     android:insetBottom="0dp"
                     android:padding="12dp"
                     app:icon="@drawable/ic_favorites"
+                    app:iconTint="@color/md_theme_onErrorContainer"
                     app:iconSize="24dp"
                     app:layout_constraintEnd_toStartOf="@+id/right_guideline"
                     app:layout_constraintTop_toTopOf="parent"
@@ -192,12 +194,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:paddingBottom="20dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/right_guideline"
                     app:layout_constraintStart_toStartOf="@id/left_guideline"
                     app:layout_constraintTop_toBottomOf="@id/instructions_title"
-                    tools:listitem="@layout/item_instruction" />
+                    tools:listitem="@layout/item_meal_step" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -220,6 +223,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddToPlan"
                 style="@style/Widget.Material3.Button.ElevatedButton"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
@@ -231,6 +235,7 @@
                 app:iconSize="24dp" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnWatchNow"
                 style="@style/Widget.Material3.Button.ElevatedButton"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
