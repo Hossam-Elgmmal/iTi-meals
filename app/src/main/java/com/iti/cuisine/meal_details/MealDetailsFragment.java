@@ -334,7 +334,7 @@ public class MealDetailsFragment extends Fragment implements MealDetailsPresente
 
     @Override
     public void onDetach() {
-        if (isRemoving()) {
+        if (isRemoving() && presenterHost != null) {
             presenterHost.removePresenter(PRESENTER_KEY);
         }
         super.onDetach();

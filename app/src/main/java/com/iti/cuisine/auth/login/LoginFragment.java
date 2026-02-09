@@ -184,7 +184,7 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
     @Override
     public void onDestroyView() {
         presenter.removeView();
-        if (isRemoving()) {
+        if (isRemoving() && presenterHost != null) {
             presenterHost.removePresenter(PRESENTER_KEY);
         }
         super.onDestroyView();

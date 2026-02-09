@@ -210,7 +210,7 @@ public class SignUpFragment extends Fragment implements SignUpPresenter.SignUpVi
     @Override
     public void onDestroyView() {
         presenter.removeView();
-        if (isRemoving()) {
+        if (isRemoving() && presenterHost != null) {
             presenterHost.removePresenter(PRESENTER_KEY);
         }
         super.onDestroyView();

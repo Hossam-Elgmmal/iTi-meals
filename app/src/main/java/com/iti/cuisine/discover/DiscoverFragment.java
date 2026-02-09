@@ -206,9 +206,9 @@ public class DiscoverFragment extends Fragment implements DiscoverPresenter.Disc
         navigateToSearchScreen(countryTitle, SearchMode.COUNTRY);
     }
 
-    private void navigateToSearchScreen(String countryTitle, SearchMode country) {
+    private void navigateToSearchScreen(String searchString, SearchMode country) {
         NavDirections action = MainNavGraphDirections
-                .actionGlobalSearchFragment(countryTitle, country.getMode());
+                .actionGlobalSearchFragment(searchString, country.getMode());
 
         presenterHost.navigate(action);
     }
@@ -221,7 +221,7 @@ public class DiscoverFragment extends Fragment implements DiscoverPresenter.Disc
 
     @Override
     public void onDetach() {
-        if (isRemoving()) {
+        if (isRemoving() && presenterHost != null) {
             presenterHost.removePresenter(PRESENTER_KEY);
         }
         super.onDetach();

@@ -81,4 +81,6 @@
     <string name="empty">Empty</string>
     <string name="to">to</string>
     <string name="update">Update</string>
+    <string name="delete_from_plan">Delete from plan</string>
+    <string name="an_empty_meal_plan_isn_t_a_failure_it_s_a_blank_canvas">An empty meal plan isn’t a failure…\nIt’s a blank canvas.</string>
 </resources>

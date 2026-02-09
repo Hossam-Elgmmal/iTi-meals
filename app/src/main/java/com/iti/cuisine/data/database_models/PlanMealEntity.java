@@ -24,12 +24,27 @@ public class PlanMealEntity {
     @NonNull
     private String thumbnail;
 
-    public PlanMealEntity(@NonNull MealType mealType, long date, @NonNull String mealId, @NonNull String title, @NonNull String thumbnail) {
+    @NonNull
+    private String country;
+
+    @NonNull
+    private String countryFlagUrl;
+
+
+    public PlanMealEntity(@NonNull MealType mealType,
+                          long date,
+                          @NonNull String mealId,
+                          @NonNull String title,
+                          @NonNull String thumbnail,
+                          @NonNull String country,
+                          @NonNull String countryFlagUrl) {
         this.mealType = mealType;
         this.date = date;
         this.mealId = mealId;
         this.title = title;
         this.thumbnail = thumbnail;
+        this.country = country;
+        this.countryFlagUrl = countryFlagUrl;
     }
 
     @NonNull
@@ -74,5 +89,23 @@ public class PlanMealEntity {
 
     public void setDate(long date) {
         this.date = date;
+    }
+
+    @NonNull
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(@NonNull String country) {
+        this.country = country;
+    }
+
+    @NonNull
+    public String getCountryFlagUrl() {
+        return countryFlagUrl;
+    }
+
+    public void setCountryFlagUrl(@NonNull String countryFlagUrl) {
+        this.countryFlagUrl = countryFlagUrl;
     }
 }

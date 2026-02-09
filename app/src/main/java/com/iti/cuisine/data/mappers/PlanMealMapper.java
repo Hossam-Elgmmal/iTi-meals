@@ -13,7 +13,9 @@ public class PlanMealMapper {
                 date,
                 meal.getId(),
                 meal.getTitle(),
-                meal.getThumbnail()
+                meal.getThumbnail(),
+                meal.getCountry(),
+                meal.getCountryFlagUrl()
         );
     }
 
