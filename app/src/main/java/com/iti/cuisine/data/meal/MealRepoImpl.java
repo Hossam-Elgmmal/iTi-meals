@@ -190,6 +190,12 @@ public class MealRepoImpl implements MealRepo {
     }
 
     @Override
+    public Completable deletePlanMealById(PlanMealEntity mealEntity) {
+        return planMealDao.deletePlanMealById(mealEntity.getMealType(), mealEntity.getDate())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
     public Completable insertPlanMeal(PlanMealEntity planMealEntity) {
         return planMealDao.insert(planMealEntity)
                 .subscribeOn(Schedulers.io());

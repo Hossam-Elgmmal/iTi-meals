@@ -39,7 +39,7 @@ public class TypeMealAdapter extends RecyclerView.Adapter<TypeMealAdapter.TypeVi
         TypeMealAdapter.onMealClick = onMealClick;
     }
 
-    public static void setOnDeleteMealClick(Consumer<PlanMealEntity> onDeleteMealClick) {
+    public void setOnDeleteMealClick(Consumer<PlanMealEntity> onDeleteMealClick) {
         TypeMealAdapter.onDeleteMealClick = onDeleteMealClick;
     }
 
@@ -50,8 +50,8 @@ public class TypeMealAdapter extends RecyclerView.Adapter<TypeMealAdapter.TypeVi
     @NonNull
     @Override
     public TypeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view =
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_plan_meal, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_plan_meal, parent, false);
 
         return new TypeViewHolder(view);
     }
@@ -89,14 +89,14 @@ public class TypeMealAdapter extends RecyclerView.Adapter<TypeMealAdapter.TypeVi
 
             deleteButton.setOnClickListener(v -> onDeleteMealClick.accept(planMealEntity));
             itemView.setOnClickListener(v -> onMealClick.accept(planMealEntity.getMealId()));
+            countryChip.setOnClickListener(v -> onCountryClick.accept(planMealEntity.getCountry()));
 
             mealType.setText(planMealEntity.getMealType().getTitleId());
-            GlideManager.loadInto(planMealEntity.getThumbnail(), image);
             title.setText(planMealEntity.getTitle());
-
             countryChip.setText(planMealEntity.getCountry());
+
+            GlideManager.loadInto(planMealEntity.getThumbnail(), image);
             GlideManager.loadImageIntoChip(planMealEntity.getCountryFlagUrl(), countryChip);
-            countryChip.setOnClickListener(v -> onCountryClick.accept(planMealEntity.getCountry()));
 
         }
     }

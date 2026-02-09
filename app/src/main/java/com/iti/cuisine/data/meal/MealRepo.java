@@ -28,4 +28,6 @@ public interface MealRepo {
     Completable insertPlanMeal(PlanMealEntity planMealEntity);
 
     Flowable<List<PlanMealEntity>> getPlanMealByDate(long date);
+
+    Completable deletePlanMealById(PlanMealEntity mealEntity);
 }

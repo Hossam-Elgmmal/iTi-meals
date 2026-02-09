@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.iti.cuisine.data.database_models.MealType;
 import com.iti.cuisine.data.database_models.PlanMealEntity;
 
 import java.util.List;
@@ -34,7 +35,8 @@ public interface PlanMealDao {
     @Query("SELECT * FROM planMeals WHERE date BETWEEN :startDate AND :endDate")
     Flowable<List<PlanMealEntity>> getPlanMealsByDateRange(long startDate, long endDate);
 
-    @Query("DELETE FROM planMeals WHERE mealId = :planMealId")
-    Completable deletePlanMealById(String planMealId);
+    @Query("DELETE FROM planMeals WHERE mealType = :mealType AND date = :date")
+    Completable deletePlanMealById(MealType mealType, long date);
+
 
 }
