@@ -16,6 +16,7 @@ import com.iti.cuisine.data.database_models.FavoriteMealEntity;
 import com.iti.cuisine.data.database_models.MealEntity;
 import com.iti.cuisine.data.database_models.MealIngredientEntity;
 import com.iti.cuisine.data.database_models.MealWithIngredients;
+import com.iti.cuisine.data.database_models.PlanMealEntity;
 import com.iti.cuisine.data.mappers.MealIngredientMapper;
 import com.iti.cuisine.data.mappers.MealMapper;
 import com.iti.cuisine.data.network.MealsService;
@@ -173,6 +174,24 @@ public class MealRepoImpl implements MealRepo {
     @Override
     public Completable deleteFavoriteMealById(String id) {
         return favoriteDao.deleteFavoriteMealById(id)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Single<List<PlanMealEntity>> getSinglePlanMealByDate(long date) {
+        return planMealDao.getSinglePlanMealByDate(date)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Flowable<List<PlanMealEntity>> getPlanMealByDate(long date) {
+        return planMealDao.getPlanMealByDate(date)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Completable insertPlanMeal(PlanMealEntity planMealEntity) {
+        return planMealDao.insert(planMealEntity)
                 .subscribeOn(Schedulers.io());
     }
 }

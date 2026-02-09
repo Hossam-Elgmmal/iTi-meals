@@ -1,16 +1,22 @@
 package com.iti.cuisine.data.database_models;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 
-@Entity(tableName = "planMeals")
+@Entity(tableName = "planMeals", primaryKeys = {"mealType", "date"})
 public class PlanMealEntity {
 
     @NonNull
-    @PrimaryKey
-    private String id;
+    @ColumnInfo(name = "mealType")
+    private MealType mealType;
+
+    @ColumnInfo(name = "date")
+    private long date;
+
+    @NonNull
+    private String mealId;
 
     @NonNull
     private String title;
@@ -18,22 +24,21 @@ public class PlanMealEntity {
     @NonNull
     private String thumbnail;
 
-    private long date;
-
-    public PlanMealEntity(@NonNull String id, @NonNull String title, @NonNull String thumbnail, long date) {
-        this.id = id;
+    public PlanMealEntity(@NonNull MealType mealType, long date, @NonNull String mealId, @NonNull String title, @NonNull String thumbnail) {
+        this.mealType = mealType;
+        this.date = date;
+        this.mealId = mealId;
         this.title = title;
         this.thumbnail = thumbnail;
-        this.date = date;
     }
 
     @NonNull
-    public String getId() {
-        return id;
+    public String getMealId() {
+        return mealId;
     }
 
-    public void setId(@NonNull String id) {
-        this.id = id;
+    public void setMealId(@NonNull String mealId) {
+        this.mealId = mealId;
     }
 
     @NonNull
@@ -52,6 +57,15 @@ public class PlanMealEntity {
 
     public void setThumbnail(@NonNull String thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    @NonNull
+    public MealType getMealType() {
+        return mealType;
+    }
+
+    public void setMealType(@NonNull MealType mealType) {
+        this.mealType = mealType;
     }
 
     public long getDate() {

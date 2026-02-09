@@ -2,17 +2,28 @@ package com.iti.cuisine.meal_details;
 
 import static com.iti.cuisine.Constants.TAG;
 
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.TimeZone;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 
+import com.iti.cuisine.R;
 import com.iti.cuisine.data.database_models.MealEntity;
+import com.iti.cuisine.data.database_models.MealType;
+import com.iti.cuisine.data.database_models.PlanMealEntity;
 import com.iti.cuisine.data.mappers.FavoriteMealMapper;
+import com.iti.cuisine.data.mappers.PlanMealMapper;
 import com.iti.cuisine.data.meal.MealErrorResult;
 import com.iti.cuisine.data.meal.MealRepo;
 import com.iti.cuisine.data.meal.MealRepoImpl;
 import com.iti.cuisine.data.ui_models.MealStep;
+
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.BackpressureStrategy;
@@ -144,8 +155,43 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter {
     }
 
     @Override
-    public void addToPlan(MealEntity mealEntity) {
-        //todo
+    public void saveMealToPlan(MealEntity mealEntity, MealType mealType, long date) {
+        Disposable disposable =
+                mealRepo.insertPlanMeal(PlanMealMapper.mapToEntity(mealEntity, mealType, date))
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(() -> {
+                            if (view != null) {
+                                view.showMessage(R.string.meal_added_to_plan);
+                            }
+                        }, t -> Log.e(TAG, "saveMealToPlan: ", t));
+        disposables.add(disposable);
+    }
+
+    @Override
+    public void getPlanMealsByDateAndShowConfirmDialog(MealEntity meal, long longDate) {
+        Disposable disposable = mealRepo.getSinglePlanMealByDate(longDate)
+                .map(list -> list.stream()
+                        .collect(
+                                Collectors.toMap(PlanMealEntity::getMealType, planMeal -> planMeal)
+                        )
+                )
+                .onErrorReturnItem(Map.of())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(meals -> {
+                    Date datex = new Date(longDate);
+
+                    SimpleDateFormat formatter =
+                            new SimpleDateFormat("MMM dd,\nyyyy", Locale.ENGLISH);
+
+                    formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+                    String formatted = formatter.format(datex);
+
+                    if (view != null) {
+                        view.showConfirmPlanDialog(meal, longDate, formatted, meals);
+                    }
+                });
+        disposables.add(disposable);
     }
 
     @Override

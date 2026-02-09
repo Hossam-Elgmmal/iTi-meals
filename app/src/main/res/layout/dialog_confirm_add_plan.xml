@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/TextAppearance.Cuisine.HeadlineSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add__meal_to_plan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/newMealImageView"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/md_theme_surface"
+            android:contentDescription="@string/meal_image"
+            android:elevation="4dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView"
+            app:shapeAppearanceOverlay="@style/CircleImage"
+            tools:src="@drawable/ic_loading_placeholder" />
+
+        <TextView
+            android:id="@+id/newMealTitle"
+            style="@style/TextAppearance.Cuisine.TitleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:minLines="2"
+            android:paddingVertical="8dp"
+            app:layout_constraintEnd_toEndOf="@id/newMealImageView"
+            app:layout_constraintStart_toStartOf="@id/newMealImageView"
+            app:layout_constraintTop_toBottomOf="@id/newMealImageView"
+            tools:text="meal name" />
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/to"
+            android:src="@drawable/ic_arrow_next"
+            app:layout_constraintBottom_toBottomOf="@+id/newMealImageView"
+            app:layout_constraintEnd_toStartOf="@id/oldMealImageView"
+            app:layout_constraintStart_toEndOf="@id/newMealImageView"
+            app:layout_constraintTop_toTopOf="@id/newMealImageView"
+            app:tint="@color/md_theme_primary" />
+
+
+        <TextView
+            android:id="@+id/mealTypeTextView"
+            style="@style/TextAppearance.Cuisine.LabelLarge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/breakfast"
+            app:layout_constraintEnd_toStartOf="@id/oldMealImageView"
+            app:layout_constraintStart_toEndOf="@id/newMealImageView"
+            app:layout_constraintTop_toBottomOf="@id/arrow" />
+
+        <TextView
+            android:id="@+id/dateTextView"
+            style="@style/TextAppearance.Cuisine.BodyLarge"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:background="@color/md_theme_surfaceContainerHighest"
+            android:gravity="center"
+            android:textColor="@color/md_theme_onSurface"
+            app:layout_constraintBottom_toBottomOf="@id/newMealImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/mealTypeTextView"
+            app:layout_constraintTop_toTopOf="@+id/newMealImageView"
+            tools:text="Jan 20,\n2026" />
+
+        <TextView
+            android:id="@+id/emptyTextView"
+            style="@style/TextAppearance.Cuisine.TitleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:maxLines="2"
+            android:minLines="2"
+            android:paddingVertical="8dp"
+            android:text="@string/empty"
+            app:layout_constraintEnd_toEndOf="@id/dateTextView"
+            app:layout_constraintStart_toStartOf="@id/dateTextView"
+            app:layout_constraintTop_toBottomOf="@id/dateTextView" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/oldMealImageView"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/md_theme_surface"
+            android:contentDescription="@string/meal_image"
+            android:elevation="4dp"
+            android:scaleType="centerCrop"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView"
+            app:shapeAppearanceOverlay="@style/CircleImage"
+            tools:src="@drawable/ic_loading_placeholder" />
+
+        <TextView
+            android:id="@+id/oldMealTitle"
+            style="@style/TextAppearance.Cuisine.TitleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:minLines="2"
+            android:paddingVertical="8dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@id/oldMealImageView"
+            app:layout_constraintStart_toStartOf="@id/oldMealImageView"
+            app:layout_constraintTop_toBottomOf="@id/oldMealImageView"
+            tools:text="meal name" />
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/TextAppearance.Cuisine.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/select_meal_type"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/newMealTitle" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggleMealType"
+            style="@style/Widget.Material3.MaterialButtonToggleGroup"
+            android:layout_width="296dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:checkedButton="@id/btnBreakfast"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBreakfast"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:text="@string/breakfast" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLunch"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:text="@string/lunch" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDinner"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:text="@string/dinner" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/cancel"
+            app:layout_constraintBottom_toBottomOf="@+id/btnConfirm"
+            app:layout_constraintEnd_toStartOf="@+id/btnConfirm" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirm"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toggleMealType" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

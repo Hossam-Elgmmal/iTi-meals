@@ -3,6 +3,7 @@ package com.iti.cuisine.data.meal;
 import com.iti.cuisine.data.database_models.FavoriteMealEntity;
 import com.iti.cuisine.data.database_models.MealEntity;
 import com.iti.cuisine.data.database_models.MealWithIngredients;
+import com.iti.cuisine.data.database_models.PlanMealEntity;
 
 import java.util.List;
 
@@ -22,4 +23,9 @@ public interface MealRepo {
     Flowable<List<FavoriteMealEntity>> getFavoriteMealById(String mealId);
     Completable insertFavoriteMeal(FavoriteMealEntity favoriteMealEntity);
     Completable deleteFavoriteMealById(String id);
+
+    Single<List<PlanMealEntity>> getSinglePlanMealByDate(long date);
+    Completable insertPlanMeal(PlanMealEntity planMealEntity);
+
+    Flowable<List<PlanMealEntity>> getPlanMealByDate(long date);
 }

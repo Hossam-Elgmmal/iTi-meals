@@ -1,5 +1,8 @@
 package com.iti.cuisine.meal_details;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,16 +18,23 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointForward;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.iti.cuisine.MainNavGraphDirections;
 import com.iti.cuisine.R;
 import com.iti.cuisine.data.database_models.MealEntity;
+import com.iti.cuisine.data.database_models.MealType;
 import com.iti.cuisine.data.database_models.MealWithIngredients;
+import com.iti.cuisine.data.database_models.PlanMealEntity;
 import com.iti.cuisine.data.ui_models.MealStep;
 import com.iti.cuisine.search.SearchMode;
 import com.iti.cuisine.utils.glide.GlideManager;
@@ -32,11 +42,13 @@ import com.iti.cuisine.utils.presenter.PresenterHost;
 import com.iti.cuisine.utils.snackbar.SnackbarBuilder;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class MealDetailsFragment extends Fragment implements MealDetailsPresenter.MealDetailsView {
 
     private final String PRESENTER_KEY = "meal_details_presenter";
+    private final String DATE_PICKER_TAG = "DATE_PICKER";
 
     private Button btnBack;
     private ImageView mealImage;
@@ -198,7 +210,120 @@ public class MealDetailsFragment extends Fragment implements MealDetailsPresente
     }
 
     private void addToPlan(MealEntity mealEntity) {
-        //todo make calendar
+        long today = MaterialDatePicker.todayInUtcMilliseconds();
+
+        CalendarConstraints constraints = new CalendarConstraints.Builder()
+                .setValidator(DateValidatorPointForward.from(today))
+                .build();
+
+        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText(R.string.select_date)
+                .setSelection(today)
+                .setCalendarConstraints(constraints)
+                .build();
+
+        datePicker.show(requireActivity().getSupportFragmentManager(), DATE_PICKER_TAG);
+
+        datePicker.addOnPositiveButtonClickListener(date ->
+                presenter.getPlanMealsByDateAndShowConfirmDialog(mealEntity, date));
+    }
+
+    @Override
+    public void showConfirmPlanDialog(MealEntity mealEntity, long longDate, String formattedDate, Map<MealType, PlanMealEntity> meals) {
+        Dialog dialog = new Dialog(requireContext());
+        dialog.setContentView(R.layout.dialog_confirm_add_plan);
+        dialog.setCancelable(false);
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        ImageView newImageView = dialog.findViewById(R.id.newMealImageView);
+        TextView newTitleTextView = dialog.findViewById(R.id.newMealTitle);
+
+        ImageView oldImageView = dialog.findViewById(R.id.oldMealImageView);
+        TextView oldTitleTextView = dialog.findViewById(R.id.oldMealTitle);
+
+        TextView dateTextView = dialog.findViewById(R.id.dateTextView);
+        TextView emptyTextView = dialog.findViewById(R.id.emptyTextView);
+        TextView mealTypeTextView = dialog.findViewById(R.id.mealTypeTextView);
+
+        MaterialButtonToggleGroup toggleGroup = dialog.findViewById(R.id.toggleMealType);
+
+        Button btnConfirm = dialog.findViewById(R.id.btnConfirm);
+        Button btnCancel = dialog.findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        GlideManager.loadInto(mealEntity.getThumbnail(), newImageView);
+        newTitleTextView.setText(mealEntity.getTitle());
+
+        dateTextView.setText(formattedDate);
+
+        PlanMealEntity typeMeal = meals.get(MealType.BREAKFAST);
+        btnConfirm.setOnClickListener(v -> {
+            presenter.saveMealToPlan(mealEntity, MealType.BREAKFAST, longDate);
+            dialog.dismiss();
+        });
+        if (typeMeal == null){
+            btnConfirm.setText(R.string.save);
+            emptyTextView.setVisibility(View.VISIBLE);
+            dateTextView.setVisibility(View.VISIBLE);
+            oldImageView.setVisibility(View.INVISIBLE);
+            oldTitleTextView.setVisibility(View.INVISIBLE);
+        } else {
+            btnConfirm.setText(R.string.update);
+            GlideManager.loadInto(typeMeal.getThumbnail(), oldImageView);
+            oldTitleTextView.setText(typeMeal.getTitle());
+            emptyTextView.setVisibility(View.INVISIBLE);
+            dateTextView.setVisibility(View.INVISIBLE);
+            oldImageView.setVisibility(View.VISIBLE);
+            oldTitleTextView.setVisibility(View.VISIBLE);
+        }
+
+        toggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (isChecked) {
+                PlanMealEntity oldMeal;
+                if (checkedId == R.id.btnBreakfast) {
+                    mealTypeTextView.setText(R.string.breakfast);
+                    oldMeal = meals.get(MealType.BREAKFAST);
+                    btnConfirm.setOnClickListener(v -> {
+                        presenter.saveMealToPlan(mealEntity, MealType.BREAKFAST, longDate);
+                        dialog.dismiss();
+                    });
+                } else if (checkedId == R.id.btnLunch) {
+                    mealTypeTextView.setText(R.string.lunch);
+                    oldMeal = meals.get(MealType.LUNCH);
+                    btnConfirm.setOnClickListener(v -> {
+                        presenter.saveMealToPlan(mealEntity, MealType.LUNCH, longDate);
+                        dialog.dismiss();
+                    });
+                } else {
+                    mealTypeTextView.setText(R.string.dinner);
+                    oldMeal = meals.get(MealType.DINNER);
+                    btnConfirm.setOnClickListener(v -> {
+                        presenter.saveMealToPlan(mealEntity, MealType.DINNER, longDate);
+                        dialog.dismiss();
+                    });
+                }
+                if (oldMeal == null){
+                    btnConfirm.setText(R.string.save);
+                    emptyTextView.setVisibility(View.VISIBLE);
+                    dateTextView.setVisibility(View.VISIBLE);
+                    oldImageView.setVisibility(View.INVISIBLE);
+                    oldTitleTextView.setVisibility(View.INVISIBLE);
+                } else {
+                    btnConfirm.setText(R.string.update);
+                    GlideManager.loadInto(oldMeal.getThumbnail(), oldImageView);
+                    oldTitleTextView.setText(oldMeal.getTitle());
+                    emptyTextView.setVisibility(View.INVISIBLE);
+                    dateTextView.setVisibility(View.INVISIBLE);
+                    oldImageView.setVisibility(View.VISIBLE);
+                    oldTitleTextView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        dialog.show();
     }
 
     @Override
