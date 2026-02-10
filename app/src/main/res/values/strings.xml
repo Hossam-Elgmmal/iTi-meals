@@ -86,4 +86,7 @@
     <string name="undo">Undo</string>
     <string name="meal_deleted_successfully">Meal deleted successfully</string>
     <string name="confirm_delete">Confirm Delete</string>
+    <string name="cuisines">Cuisines</string>
+    <string name="categories">Categories</string>
+    <string name="clear_selection">Clear Selection</string>
 </resources>
