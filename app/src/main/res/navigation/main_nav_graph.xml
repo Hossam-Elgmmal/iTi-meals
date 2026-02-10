@@ -131,6 +131,9 @@
         <argument
             android:name="searchMode"
             app:argType="integer" />
+        <argument
+            android:name="imageUrl"
+            app:argType="string" />
     </fragment>
     <action
         android:id="@+id/action_global_searchFragment"

@@ -16,6 +16,7 @@ import com.iti.cuisine.data.database_models.MealEntity;
 import com.iti.cuisine.utils.glide.GlideManager;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class TodayMealAdapter extends RecyclerView.Adapter<TodayMealAdapter.TodayMealViewHolder> {
@@ -23,7 +24,7 @@ public class TodayMealAdapter extends RecyclerView.Adapter<TodayMealAdapter.Toda
     private List<MealEntity> todayMeals;
 
     private static Consumer<String> onItemClick;
-    private static Consumer<String> onCountryClick;
+    private static BiConsumer<String, String> onCountryClick;
 
     public TodayMealAdapter(List<MealEntity> todayMeals) {
         this.todayMeals = todayMeals;
@@ -39,7 +40,7 @@ public class TodayMealAdapter extends RecyclerView.Adapter<TodayMealAdapter.Toda
         TodayMealAdapter.onItemClick = onItemClick;
     }
 
-    public void setOnCountryClick(Consumer<String> onCountryClick) {
+    public void setOnCountryClick(BiConsumer<String, String> onCountryClick) {
         TodayMealAdapter.onCountryClick = onCountryClick;
     }
 
@@ -82,7 +83,7 @@ public class TodayMealAdapter extends RecyclerView.Adapter<TodayMealAdapter.Toda
             countryChip.setText(mealEntity.getCountry());
 
             itemView.setOnClickListener(v -> onItemClick.accept(mealEntity.getId()));
-            countryChip.setOnClickListener(v -> onCountryClick.accept(mealEntity.getCountry()));
+            countryChip.setOnClickListener(v -> onCountryClick.accept(mealEntity.getCountry(), mealEntity.getCountryFlagUrl()));
 
             GlideManager.loadInto(mealEntity.getThumbnail(), imageView);
             GlideManager.loadImageIntoChip(mealEntity.getCountryFlagUrl(), countryChip);

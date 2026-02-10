@@ -163,7 +163,7 @@ public class MealDetailsFragment extends Fragment implements MealDetailsPresente
         mealTitle.setText(mealEntity.getTitle());
         mealCountryChip.setText(mealEntity.getCountry());
         mealCountryChip
-                .setOnClickListener(v -> navigateToSearchCountryScreen(mealEntity.getCountry()));
+                .setOnClickListener(v -> navigateToSearchCountryScreen(mealEntity.getCountry(), mealEntity.getCountryFlagUrl()));
 
         ingredientsAdapter.setIngredients(meal.getIngredients());
         stepsAdapter.setMealSteps(mealSteps);
@@ -183,17 +183,17 @@ public class MealDetailsFragment extends Fragment implements MealDetailsPresente
         btnFavorite.setIconResource(isFavorite ? R.drawable.ic_favorites_filled : R.drawable.ic_favorites);
     }
 
-    public void navigateToSearchIngredientScreen(String ingredientTitle) {
-        navigateToSearchScreen(ingredientTitle, SearchMode.INGREDIENT);
+    public void navigateToSearchIngredientScreen(String ingredientTitle, String imageUrl) {
+        navigateToSearchScreen(ingredientTitle, SearchMode.INGREDIENT, imageUrl);
     }
 
-    public void navigateToSearchCountryScreen(String countryTitle) {
-        navigateToSearchScreen(countryTitle, SearchMode.COUNTRY);
+    public void navigateToSearchCountryScreen(String countryTitle, String imageUrl) {
+        navigateToSearchScreen(countryTitle, SearchMode.COUNTRY, imageUrl);
     }
 
-    private void navigateToSearchScreen(String countryTitle, SearchMode country) {
+    private void navigateToSearchScreen(String countryTitle, SearchMode country, String imageUrl) {
         NavDirections action = MainNavGraphDirections
-                .actionGlobalSearchFragment(countryTitle, country.getMode());
+                .actionGlobalSearchFragment(countryTitle, country.getMode(), imageUrl);
 
         presenterHost.navigate(action);
     }

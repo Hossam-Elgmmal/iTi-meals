@@ -12,16 +12,27 @@ import com.iti.cuisine.data.database.MealDao;
 import com.iti.cuisine.data.database.MealDatabase;
 import com.iti.cuisine.data.database.MealIngredientDao;
 import com.iti.cuisine.data.database.PlanMealDao;
+import com.iti.cuisine.data.database_models.CategoryEntity;
+import com.iti.cuisine.data.database_models.CountryEntity;
 import com.iti.cuisine.data.database_models.FavoriteMealEntity;
+import com.iti.cuisine.data.database_models.IngredientEntity;
 import com.iti.cuisine.data.database_models.MealEntity;
 import com.iti.cuisine.data.database_models.MealIngredientEntity;
 import com.iti.cuisine.data.database_models.MealWithIngredients;
 import com.iti.cuisine.data.database_models.PlanMealEntity;
+import com.iti.cuisine.data.mappers.CategoryMapper;
+import com.iti.cuisine.data.mappers.CountryMapper;
+import com.iti.cuisine.data.mappers.IngredientMapper;
 import com.iti.cuisine.data.mappers.MealIngredientMapper;
 import com.iti.cuisine.data.mappers.MealMapper;
+import com.iti.cuisine.data.mappers.SearchMealMapper;
 import com.iti.cuisine.data.network.MealsService;
 import com.iti.cuisine.data.network.RetrofitManager;
+import com.iti.cuisine.data.network_models.CategoryDto;
+import com.iti.cuisine.data.network_models.CountryDto;
+import com.iti.cuisine.data.network_models.IngredientDto;
 import com.iti.cuisine.data.network_models.MealDto;
+import com.iti.cuisine.search.SearchItem;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -194,6 +205,116 @@ public class MealRepoImpl implements MealRepo {
         return planMealDao.deletePlanMealById(mealEntity.getMealType(), mealEntity.getDate())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Flowable<List<IngredientEntity>> getAllIngredients() {
+        return ingredientDao.getAllIngredients()
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Flowable<List<CategoryEntity>> getAllCategories() {
+        return categoryDao.getAllCategories()
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Flowable<List<CountryEntity>> getAllCountries() {
+        return countryDao.getAllCountries()
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Completable fetchCategories() {
+        return mealsService.getCategories().flatMapCompletable(
+                response ->
+                        saveAllCategoriesToDatabase(response.getCategories())
+        ).subscribeOn(Schedulers.io());
+    }
+
+    private Completable saveAllCategoriesToDatabase(List<CategoryDto> categories) {
+        return Completable
+                .fromAction(() -> {
+                    List<CategoryEntity> categoryEntities =
+                            categories.stream()
+                                    .map(CategoryMapper::mapToEntity)
+                                    .collect(Collectors.toList());
+
+                    categoryDao.insertAll(categoryEntities);
+                });
+    }
+
+    @Override
+    public Completable fetchCountries() {
+        return mealsService.getCountries().flatMapCompletable(
+                response ->
+                        saveAllCountriesToDatabase(response.getCountries())
+        ).subscribeOn(Schedulers.io());
+    }
+
+    private Completable saveAllCountriesToDatabase(List<CountryDto> countries) {
+        return Completable
+                .fromAction(() -> {
+                    List<CountryEntity> countryEntities =
+                            countries.stream()
+                                    .map(CountryMapper::mapToEntity)
+                                    .collect(Collectors.toList());
+
+                    countryDao.insertAll(countryEntities);
+                });
+    }
+
+    @Override
+    public Completable fetchIngredients() {
+        return mealsService.getIngredients().flatMapCompletable(
+                response ->
+                        saveAllIngredientsToDatabase(response.getIngredients())
+        ).subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Single<List<SearchItem>> fetchMealsByCategory(String title) {
+
+        return mealsService.getMealsByCategory(title.replaceAll("\\s", "_"))
+                .map(response -> response.getFilterMeals().stream()
+                        .map(SearchMealMapper::mapToSearchItem)
+                        .collect(Collectors.toList()))
+                .subscribeOn(Schedulers.io());
+
+    }
+    @Override
+    public Single<List<SearchItem>> fetchMealsByCountry(String title) {
+
+        return mealsService.getMealsByCountry(title.replaceAll("\\s", "_"))
+                .map(response -> response.getFilterMeals().stream()
+                        .map(SearchMealMapper::mapToSearchItem)
+                        .collect(Collectors.toList()))
+                .subscribeOn(Schedulers.io());
+
+    }
+    @Override
+    public Single<List<SearchItem>> fetchMealsByIngredient(String title) {
+
+        return mealsService.getMealsByIngredient(title.replaceAll("\\s", "_"))
+                .map(response -> response.getFilterMeals().stream()
+                        .map(SearchMealMapper::mapToSearchItem)
+                        .collect(Collectors.toList()))
+                .subscribeOn(Schedulers.io());
+
+    }
+
+    private Completable saveAllIngredientsToDatabase(List<IngredientDto> ingredients) {
+        return Completable
+                .fromAction(() -> {
+                    List<IngredientEntity> ingredientEntities =
+                            ingredients.stream()
+                                    .map(IngredientMapper::mapToEntity)
+                                    .collect(Collectors.toList());
+
+                    ingredientDao.insertAll(ingredientEntities);
+                });
+    }
+
 
     @Override
     public Completable insertPlanMeal(PlanMealEntity planMealEntity) {

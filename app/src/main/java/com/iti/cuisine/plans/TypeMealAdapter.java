@@ -16,6 +16,7 @@ import com.iti.cuisine.data.database_models.PlanMealEntity;
 import com.iti.cuisine.utils.glide.GlideManager;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class TypeMealAdapter extends RecyclerView.Adapter<TypeMealAdapter.TypeViewHolder> {
@@ -24,7 +25,7 @@ public class TypeMealAdapter extends RecyclerView.Adapter<TypeMealAdapter.TypeVi
 
     private static Consumer<String> onMealClick;
     public static Consumer<PlanMealEntity> onDeleteMealClick;
-    private static Consumer<String> onCountryClick;
+    private static BiConsumer<String, String> onCountryClick;
 
     public TypeMealAdapter(List<PlanMealEntity> meals) {
         this.meals = meals;
@@ -43,7 +44,7 @@ public class TypeMealAdapter extends RecyclerView.Adapter<TypeMealAdapter.TypeVi
         TypeMealAdapter.onDeleteMealClick = onDeleteMealClick;
     }
 
-    public void setOnCountryClick(Consumer<String> onCountryClick) {
+    public void setOnCountryClick(BiConsumer<String, String> onCountryClick) {
         TypeMealAdapter.onCountryClick = onCountryClick;
     }
 
@@ -89,7 +90,7 @@ public class TypeMealAdapter extends RecyclerView.Adapter<TypeMealAdapter.TypeVi
 
             deleteButton.setOnClickListener(v -> onDeleteMealClick.accept(planMealEntity));
             itemView.setOnClickListener(v -> onMealClick.accept(planMealEntity.getMealId()));
-            countryChip.setOnClickListener(v -> onCountryClick.accept(planMealEntity.getCountry()));
+            countryChip.setOnClickListener(v -> onCountryClick.accept(planMealEntity.getCountry(), planMealEntity.getCountryFlagUrl()));
 
             mealType.setText(planMealEntity.getMealType().getTitleId());
             title.setText(planMealEntity.getTitle());

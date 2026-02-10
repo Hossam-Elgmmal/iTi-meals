@@ -8,11 +8,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,31 +23,47 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+import com.iti.cuisine.MainNavGraphDirections;
 import com.iti.cuisine.R;
+import com.iti.cuisine.utils.glide.GlideManager;
+import com.iti.cuisine.utils.presenter.PresenterHost;
+import com.iti.cuisine.utils.snackbar.SnackbarBuilder;
+
+import java.util.List;
+
+import io.reactivex.rxjava3.core.Observable;
 
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements SearchPresenter.SearchView {
 
-    private String searchItemName;
-    private int searchMode;
+
+    private final String PRESENTER_KEY = "search_presenter";
+
+    private SearchPresenter presenter;
+
+    private PresenterHost presenterHost;
+
+    private String initialItemName;
+    private String initialItemImageUrl;
+    private int initialSearchMode;
 
     private Button btnBack;
-    private TextInputLayout searchInputLayout;
     private TextInputEditText searchEditText;
 
-    private SwipeRefreshLayout refreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private ChipGroup toggleSearchType;
 
     private MaterialCardView selectedItemCard;
     private ImageView selectedItemImage;
     private TextView selectedItemTextView;
-    private Button btnClearItem;
+    private Button btnClearSelectedItem;
 
+    private LottieAnimationView lottieAnimation;
     private RecyclerView searchRecyclerView;
 
     private SearchAdapter searchAdapter;
@@ -53,8 +72,9 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SearchFragmentArgs args = SearchFragmentArgs.fromBundle(getArguments());
-        searchItemName = args.getSearchItem();
-        searchMode = args.getSearchMode();
+        initialItemName = args.getSearchItem();
+        initialSearchMode = args.getSearchMode();
+        initialItemImageUrl = args.getImageUrl();
     }
 
     @Override
@@ -73,16 +93,17 @@ public class SearchFragment extends Fragment {
         });
 
         initializeView(view);
+        setClickListeners();
+        initializingSelectedItem();
     }
 
     public void initializeView(View view) {
 
         btnBack = view.findViewById(R.id.btnBack);
-        searchInputLayout = view.findViewById(R.id.search_input_layout);
 
         searchEditText = view.findViewById(R.id.search_edit_text);
 
-        refreshLayout = view.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
 
         toggleSearchType = view.findViewById(R.id.toggleSearchType);
 
@@ -90,7 +111,9 @@ public class SearchFragment extends Fragment {
         selectedItemImage = view.findViewById(R.id.selectedItemImage);
         selectedItemTextView = view.findViewById(R.id.selectedItemTextView);
 
-        btnClearItem = view.findViewById(R.id.btnClearItem);
+        btnClearSelectedItem = view.findViewById(R.id.btnClearItem);
+
+        lottieAnimation = view.findViewById(R.id.lottieAnimation);
 
         searchRecyclerView = view.findViewById(R.id.searchRecyclerView);
 
@@ -114,6 +137,159 @@ public class SearchFragment extends Fragment {
         searchAdapter = new SearchAdapter();
         searchRecyclerView.setAdapter(searchAdapter);
 
+        presenterHost = (PresenterHost) requireActivity();
+        presenter = presenterHost
+                .getPresenter(PRESENTER_KEY, SearchPresenterImpl::createNewInstance);
+
+        swipeRefreshLayout.setOnRefreshListener(presenter::refreshData);
+
+        presenter.setView(this);
     }
 
+
+    private void setClickListeners() {
+        btnBack.setOnClickListener(v -> presenterHost.navigateBack());
+
+        toggleSearchType.setOnCheckedStateChangeListener(
+                (group, checkedIds) -> {
+                    if (!checkedIds.isEmpty()) {
+                        int checkedId = checkedIds.get(0);
+                        if (checkedId == R.id.chipCuisines) {
+                            presenter.showCountries();
+                        } else if (checkedId == R.id.chipCategories) {
+                            presenter.showCategories();
+                        } else if (checkedId == R.id.chipIngredients) {
+                            presenter.showIngredients();
+                        }
+                    }
+                }
+        );
+        searchAdapter.setOnMealClicked(searchItem -> {
+            navigateToMealDetailScreen(searchItem.getId());
+        });
+        searchAdapter.setOnTypeClicked(searchItem -> {
+            toggleSearchType.setEnabled(false);
+            presenter.setSelectedItem(searchItem);
+        });
+        btnClearSelectedItem.setOnClickListener(v -> {
+            toggleSearchType.setEnabled(true);
+            presenter.clearSelectedItem();
+        });
+    }
+
+    private void initializingSelectedItem() {
+        if (presenter.isInitialized()) {
+            return;
+        }
+        presenter.setInitialized(true);
+        SearchMode mode = SearchMode.fromCode(initialSearchMode);
+        if (mode == SearchMode.INGREDIENT) {
+            toggleSearchType.check(R.id.chipIngredients);
+            presenter.showIngredients();
+        } else if (mode == SearchMode.CATEGORY) {
+            toggleSearchType.check(R.id.chipCategories);
+            presenter.showCategories();
+        } else {
+            toggleSearchType.check(R.id.chipCuisines);
+            presenter.showCountries();
+        }
+        if (!initialItemName.isBlank()) {
+            presenter.setSelectedItem(new SearchItem(
+                    initialItemName.trim(),
+                    initialItemName.trim(),
+                    initialItemImageUrl,
+                    SearchItem.ViewType.TYPE_SEARCH
+            ));
+        }
+    }
+
+    public void navigateToMealDetailScreen(String mealId) {
+        NavDirections action = MainNavGraphDirections
+                .actionGlobalMealDetailsFragment(mealId);
+
+        presenterHost.navigate(action);
+    }
+
+    @Override
+    public void showLoading() {
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void hideLoading() {
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showMessage(int messageId) {
+        String message = getString(messageId);
+        SnackbarBuilder snackbarBuilder = new SnackbarBuilder();
+        SnackbarBuilder.SnackbarData data = snackbarBuilder
+                .setMessage(message)
+                .build();
+        presenterHost.showSnackbar(data);
+    }
+
+    @Override
+    public void setSelectedItem(SearchItem searchItem) {
+        selectedItemTextView.setText(searchItem.getTitle());
+        GlideManager.loadInto(searchItem.getImageUrl(), selectedItemImage);
+        selectedItemCard.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void clearSelectedItem() {
+        selectedItemCard.setVisibility(View.GONE);
+        selectedItemTextView.setText("");
+        selectedItemImage.setImageResource(R.drawable.logo);
+    }
+
+    @Override
+    public Observable<String> getSearchText() {
+        return Observable.create(emitter -> {
+
+            emitter.onNext(searchEditText.getText().toString());
+            TextWatcher textWatcher = new TextWatcher() {
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    emitter.onNext(s.toString());
+                }
+            };
+
+            searchEditText.addTextChangedListener(textWatcher);
+            emitter.setCancellable(() -> searchEditText.removeTextChangedListener(textWatcher));
+        });
+    }
+
+    @Override
+    public void setSearchItems(List<SearchItem> searchItems) {
+        if (searchItems.isEmpty()) {
+            lottieAnimation.setVisibility(View.VISIBLE);
+        } else {
+            lottieAnimation.setVisibility(View.GONE);
+        }
+        searchAdapter.setSearchItems(searchItems);
+    }
+
+    @Override
+    public void onDestroyView() {
+        presenter.removeView();
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDetach() {
+        if (isRemoving() && presenterHost != null) {
+            presenterHost.removePresenter(PRESENTER_KEY);
+        }
+        super.onDetach();
+    }
 }

@@ -14,12 +14,12 @@ import com.iti.cuisine.data.database_models.MealIngredientEntity;
 import com.iti.cuisine.utils.glide.GlideManager;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.IngredientViewHolder> {
 
     private List<MealIngredientEntity> ingredients;
-    private static Consumer<String> onIngredientClick;
+    private static BiConsumer<String, String> onIngredientClick;
 
     public IngredientsAdapter(List<MealIngredientEntity> ingredients) {
         this.ingredients = ingredients;
@@ -30,7 +30,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         notifyDataSetChanged();
     }
 
-    public void setOnIngredientClick(Consumer<String> onIngredientClick) {
+    public void setOnIngredientClick(BiConsumer<String, String> onIngredientClick) {
         IngredientsAdapter.onIngredientClick = onIngredientClick;
     }
 
@@ -69,7 +69,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         public void bind(MealIngredientEntity mealIngredientEntity) {
             ingredientTitle.setText(mealIngredientEntity.getTitle());
             ingredientMeasure.setText(mealIngredientEntity.getMeasure());
-            ingredientCard.setOnClickListener(v -> onIngredientClick.accept(mealIngredientEntity.getTitle()));
+            ingredientCard.setOnClickListener(v -> onIngredientClick.accept(mealIngredientEntity.getTitle(), mealIngredientEntity.getThumbnail()));
             GlideManager.loadInto(mealIngredientEntity.getThumbnail(), ingredientImage);
         }
     }

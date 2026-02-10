@@ -111,7 +111,7 @@ public class DiscoverFragment extends Fragment implements DiscoverPresenter.Disc
         todayMealRecyclerView.setAdapter(todayMealAdapter);
 
         Button searchButton = view.findViewById(R.id.btnSearch);
-        searchButton.setOnClickListener(v -> navigateToSearchScreen("", SearchMode.NONE));
+        searchButton.setOnClickListener(v -> navigateToSearchScreen("", SearchMode.NONE, ""));
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
 
@@ -155,7 +155,7 @@ public class DiscoverFragment extends Fragment implements DiscoverPresenter.Disc
 
         randomMealCountryChip.setClickable(true);
         randomMealCountryChip
-                .setOnClickListener(v -> navigateToSearchCountryScreen(meal.getCountry()));
+                .setOnClickListener(v -> navigateToSearchCountryScreen(meal.getCountry(), meal.getCountryFlagUrl()));
 
         GlideManager.loadInto(meal.getThumbnail(), randomMealImageView);
         GlideManager.loadImageIntoChip(meal.getCountryFlagUrl(), randomMealCountryChip);
@@ -166,7 +166,7 @@ public class DiscoverFragment extends Fragment implements DiscoverPresenter.Disc
     public void setFirstIngredient(MealIngredientEntity ingredient) {
         firstIngredientTitleTextView.setText(ingredient.getTitle());
         firstIngredientCardView
-                .setOnClickListener(v -> navigateToSearchIngredientScreen(ingredient.getTitle()));
+                .setOnClickListener(v -> navigateToSearchIngredientScreen(ingredient.getTitle(), ingredient.getThumbnail()));
         GlideManager.loadInto(ingredient.getThumbnail(), firstIngredientImageView);
     }
 
@@ -174,7 +174,7 @@ public class DiscoverFragment extends Fragment implements DiscoverPresenter.Disc
     public void setSecondIngredient(MealIngredientEntity ingredient) {
         secondIngredientTitleTextView.setText(ingredient.getTitle());
         secondIngredientCardView
-                .setOnClickListener(v -> navigateToSearchIngredientScreen(ingredient.getTitle()));
+                .setOnClickListener(v -> navigateToSearchIngredientScreen(ingredient.getTitle(), ingredient.getThumbnail()));
         GlideManager.loadInto(ingredient.getThumbnail(), secondIngredientImageView);
     }
 
@@ -198,17 +198,17 @@ public class DiscoverFragment extends Fragment implements DiscoverPresenter.Disc
         presenterHost.navigate(action);
     }
 
-    public void navigateToSearchIngredientScreen(String ingredientTitle) {
-        navigateToSearchScreen(ingredientTitle, SearchMode.INGREDIENT);
+    public void navigateToSearchIngredientScreen(String ingredientTitle, String imageUrl) {
+        navigateToSearchScreen(ingredientTitle, SearchMode.INGREDIENT, imageUrl);
     }
 
-    public void navigateToSearchCountryScreen(String countryTitle) {
-        navigateToSearchScreen(countryTitle, SearchMode.COUNTRY);
+    public void navigateToSearchCountryScreen(String countryTitle, String imageUrl) {
+        navigateToSearchScreen(countryTitle, SearchMode.COUNTRY, imageUrl);
     }
 
-    private void navigateToSearchScreen(String searchString, SearchMode country) {
+    private void navigateToSearchScreen(String searchString, SearchMode country, String imageUrl) {
         NavDirections action = MainNavGraphDirections
-                .actionGlobalSearchFragment(searchString, country.getMode());
+                .actionGlobalSearchFragment(searchString, country.getMode(), imageUrl);
 
         presenterHost.navigate(action);
     }

@@ -1,6 +1,5 @@
 package com.iti.cuisine.search;
 
-import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,32 +7,40 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.AsyncListDiffer;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.iti.cuisine.R;
 import com.iti.cuisine.utils.glide.GlideManager;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final List<SearchItem> searchItems;
+    private final AsyncListDiffer<SearchItem> differ = new AsyncListDiffer<>(this, DIFF_CALLBACK);
 
     private Consumer<SearchItem> onTypeClicked;
 
     private Consumer<SearchItem> onMealClicked;
 
-    public SearchAdapter() {
-        this.searchItems = new ArrayList<>();
-    }
+    private static final DiffUtil.ItemCallback<SearchItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull SearchItem oldItem, @NonNull SearchItem newItem) {
+            return oldItem.getId().equals(newItem.getId());
+        }
 
-    @SuppressLint("NotifyDataSetChanged")
+        @Override
+        public boolean areContentsTheSame(@NonNull SearchItem oldItem, @NonNull SearchItem newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
+
+    public SearchAdapter() {}
+
     public void setSearchItems(List<SearchItem> searchItems) {
-        this.searchItems.clear();
-        this.searchItems.addAll(searchItems);
-        notifyDataSetChanged();
+        differ.submitList(searchItems);
     }
 
     public void setOnTypeClicked(Consumer<SearchItem> onTypeClicked) {
@@ -60,17 +67,17 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((CuisineViewHolder) holder).bind(searchItems.get(position), onTypeClicked, onMealClicked);
+        ((CuisineViewHolder) holder).bind(differ.getCurrentList().get(position), onTypeClicked, onMealClicked);
     }
 
     @Override
     public int getItemCount() {
-        return searchItems.size();
+        return differ.getCurrentList().size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return searchItems.get(position).getType();
+        return differ.getCurrentList().get(position).getType();
     }
 
     public static class TypeViewHolder extends RecyclerView.ViewHolder implements CuisineViewHolder {

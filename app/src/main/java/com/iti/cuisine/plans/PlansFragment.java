@@ -78,7 +78,7 @@ public class PlansFragment extends Fragment implements PlanPresenter.PlanView {
         emptyListCard = view.findViewById(R.id.quote_card_view);
         emptyListTextView = view.findViewById(R.id.emptyListTextView);
 
-        searchButton.setOnClickListener(v -> navigateToSearchScreen("", SearchMode.NONE));
+        searchButton.setOnClickListener(v -> navigateToSearchScreen("", SearchMode.NONE, ""));
         presenterHost = (PresenterHost) requireActivity();
         presenter = presenterHost
                 .getPresenter(PRESENTER_KEY, PlanPresenterImpl::createNewInstance);
@@ -104,15 +104,15 @@ public class PlansFragment extends Fragment implements PlanPresenter.PlanView {
         presenter.setDate(utcMillis);
     }
 
-    private void navigateToSearchScreen(String searchString, SearchMode searchMode) {
+    private void navigateToSearchScreen(String searchString, SearchMode searchMode, String imageUrl) {
         NavDirections action = MainNavGraphDirections
-                .actionGlobalSearchFragment(searchString, searchMode.getMode());
+                .actionGlobalSearchFragment(searchString, searchMode.getMode(), imageUrl);
 
         presenterHost.navigate(action);
     }
 
-    public void navigateToSearchCountryScreen(String countryTitle) {
-        navigateToSearchScreen(countryTitle, SearchMode.COUNTRY);
+    public void navigateToSearchCountryScreen(String countryTitle, String imageUrl) {
+        navigateToSearchScreen(countryTitle, SearchMode.COUNTRY, imageUrl);
     }
     public void navigateToMealDetailScreen(String mealId) {
         NavDirections action = MainNavGraphDirections

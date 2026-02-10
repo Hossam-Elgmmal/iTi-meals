@@ -15,4 +15,13 @@ public enum SearchMode {
     public int getMode() {
         return mode;
     }
+
+    public static SearchMode fromCode(int code) {
+        for (SearchMode mode : values()) {
+            if (mode.getMode() == code) {
+                return mode;
+            }
+        }
+        return COUNTRY;
+    }
 }
