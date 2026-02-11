@@ -58,4 +58,6 @@ public interface MealRepo {
     Single<List<SearchItem>> fetchMealsByCountry(String title);
 
     Single<List<SearchItem>> fetchMealsByIngredient(String title);
+
+    Flowable<List<FavoriteMealEntity>> getAllFavoriteMeals();
 }

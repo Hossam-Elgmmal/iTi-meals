@@ -89,4 +89,6 @@
     <string name="cuisines">Cuisines</string>
     <string name="categories">Categories</string>
     <string name="clear_selection">Clear Selection</string>
+    <string name="all_favorites">All favorites</string>
+    <string name="vertical_drag_handle">vertical drag handle</string>
 </resources>

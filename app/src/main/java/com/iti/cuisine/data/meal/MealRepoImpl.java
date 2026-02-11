@@ -303,6 +303,12 @@ public class MealRepoImpl implements MealRepo {
 
     }
 
+    @Override
+    public Flowable<List<FavoriteMealEntity>> getAllFavoriteMeals() {
+        return favoriteDao.getAllFavoriteMeals()
+                .subscribeOn(Schedulers.io());
+    }
+
     private Completable saveAllIngredientsToDatabase(List<IngredientDto> ingredients) {
         return Completable
                 .fromAction(() -> {

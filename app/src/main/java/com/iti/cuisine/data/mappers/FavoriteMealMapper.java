@@ -9,7 +9,10 @@ public class FavoriteMealMapper {
         return new FavoriteMealEntity(
                 meal.getId(),
                 meal.getTitle(),
-                meal.getThumbnail()
+                meal.getThumbnail(),
+                meal.getCountry(),
+                meal.getCountryFlagUrl(),
+                System.currentTimeMillis()
         );
     }
 
