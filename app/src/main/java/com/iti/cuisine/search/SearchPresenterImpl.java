@@ -146,6 +146,11 @@ public class SearchPresenterImpl implements SearchPresenter {
 
     @Override
     public void setSelectedItem(SearchItem searchItem) {
+
+        if (itemsDisposable != null) {
+            disposables.remove(itemsDisposable);
+        }
+
         selectedSearchItem.onNext(Optional.of(searchItem));
         SearchMode mode = searchMode.getValue();
         if (mode == null) return;
