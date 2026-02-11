@@ -161,21 +161,13 @@ public class SearchFragment extends Fragment implements SearchPresenter.SearchVi
             navigateToMealDetailScreen(searchItem.getId());
         });
         searchAdapter.setOnTypeClicked(searchItem -> {
-            enableChip(false);
             presenter.setSelectedItem(searchItem);
             searchEditText.setText("");
         });
         btnClearSelectedItem.setOnClickListener(v -> {
-            enableChip(true);
             presenter.clearSelectedItem();
             searchEditText.setText("");
         });
-    }
-    void enableChip(boolean isEnabled) {
-
-        for (int i = 0; i < toggleSearchType.getChildCount(); i++) {
-            toggleSearchType.getChildAt(i).setEnabled(isEnabled);
-        }
     }
 
     private void initializingSelectedItem() {
@@ -229,6 +221,7 @@ public class SearchFragment extends Fragment implements SearchPresenter.SearchVi
 
     @Override
     public void setSelectedItem(SearchItem searchItem) {
+        enableChip(false);
         selectedItemTextView.setText(searchItem.getTitle());
         GlideManager.loadInto(searchItem.getImageUrl(), selectedItemImage);
         selectedItemCard.setVisibility(View.VISIBLE);
@@ -236,9 +229,17 @@ public class SearchFragment extends Fragment implements SearchPresenter.SearchVi
 
     @Override
     public void clearSelectedItem() {
+        enableChip(true);
         selectedItemCard.setVisibility(View.GONE);
         selectedItemTextView.setText("");
         selectedItemImage.setImageResource(R.drawable.logo);
+    }
+
+    void enableChip(boolean isEnabled) {
+
+        for (int i = 0; i < toggleSearchType.getChildCount(); i++) {
+            toggleSearchType.getChildAt(i).setEnabled(isEnabled);
+        }
     }
 
     @Override

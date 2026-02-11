@@ -21,8 +21,6 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject;
 
 public class SearchPresenterImpl implements SearchPresenter {
 
-    private boolean isInitialized = false;
-
     private final BehaviorSubject<Optional<SearchItem>> selectedSearchItem = BehaviorSubject.create();
     private final BehaviorSubject<List<SearchItem>> allSearchItems = BehaviorSubject.create();
     private final BehaviorSubject<SearchMode> searchMode = BehaviorSubject.create();
@@ -60,6 +58,7 @@ public class SearchPresenterImpl implements SearchPresenter {
                 .andThen(mealRepo.fetchCountries())
                 .andThen(mealRepo.fetchIngredients())
                 .doOnSubscribe(a -> showLoading.onNext(true))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
                     showLoading.onNext(false);
                 }, t -> {
@@ -91,6 +90,7 @@ public class SearchPresenterImpl implements SearchPresenter {
                         )).collect(Collectors.toList())
                 )
                 .onErrorReturn(t -> List.of())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(allSearchItems::onNext);
 
         disposables.add(itemsDisposable);
@@ -114,6 +114,7 @@ public class SearchPresenterImpl implements SearchPresenter {
                         )).collect(Collectors.toList())
                 )
                 .onErrorReturn(t -> List.of())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(allSearchItems::onNext);
 
         disposables.add(itemsDisposable);
@@ -137,6 +138,7 @@ public class SearchPresenterImpl implements SearchPresenter {
                         )).collect(Collectors.toList())
                 )
                 .onErrorReturn(t -> List.of())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(allSearchItems::onNext);
 
         disposables.add(itemsDisposable);
@@ -166,6 +168,7 @@ public class SearchPresenterImpl implements SearchPresenter {
     private void getMealsForCategory(String title) {
         fetchDisposable = mealRepo.fetchMealsByCategory(title)
                 .doOnSubscribe(a -> showLoading.onNext(true))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(list -> {
                     showLoading.onNext(false);
                     allSearchItems.onNext(list);
@@ -184,6 +187,7 @@ public class SearchPresenterImpl implements SearchPresenter {
     private void getMealsForCountry(String title) {
         fetchDisposable = mealRepo.fetchMealsByCountry(title)
                 .doOnSubscribe(a -> showLoading.onNext(true))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(list -> {
                     showLoading.onNext(false);
                     allSearchItems.onNext(list);
@@ -203,6 +207,7 @@ public class SearchPresenterImpl implements SearchPresenter {
     private void getMealsForIngredient(String title) {
         fetchDisposable = mealRepo.fetchMealsByIngredient(title)
                 .doOnSubscribe(a -> showLoading.onNext(true))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(list -> {
                     showLoading.onNext(false);
                     allSearchItems.onNext(list);
@@ -297,7 +302,9 @@ public class SearchPresenterImpl implements SearchPresenter {
     }
 
     private void listenToSelectedItem() {
-        selectedItemDisposable = selectedSearchItem.subscribe(searchItem -> {
+        selectedItemDisposable = selectedSearchItem
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(searchItem -> {
             if (view != null) {
                 if (searchItem.isPresent()) {
                     view.setSelectedItem(searchItem.get());
