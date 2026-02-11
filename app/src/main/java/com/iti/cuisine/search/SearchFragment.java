@@ -179,10 +179,6 @@ public class SearchFragment extends Fragment implements SearchPresenter.SearchVi
     }
 
     private void initializingSelectedItem() {
-        if (presenter.isInitialized()) {
-            return;
-        }
-        presenter.setInitialized(true);
         SearchMode mode = SearchMode.fromCode(initialSearchMode);
         if (mode == SearchMode.INGREDIENT) {
             toggleSearchType.check(R.id.chipIngredients);

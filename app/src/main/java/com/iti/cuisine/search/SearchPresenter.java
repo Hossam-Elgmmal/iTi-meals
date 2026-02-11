@@ -27,8 +27,7 @@ public interface SearchPresenter extends Presenter {
         void setSearchItems(List<SearchItem> searchItems);
     }
 
-    void setInitialized(boolean b);
-    boolean isInitialized();
+
     void showIngredients();
     void showCategories();
     void showCountries();

@@ -286,14 +286,6 @@ public class SearchPresenterImpl implements SearchPresenter {
         disposables.add(searchTextDisposable);
     }
 
-    public boolean isInitialized() {
-        return isInitialized;
-    }
-
-    public void setInitialized(boolean initialized) {
-        isInitialized = initialized;
-    }
-
     private static class SearchParams {
         final String query;
         final List<SearchItem> items;
