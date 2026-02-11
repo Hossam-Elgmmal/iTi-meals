@@ -5,8 +5,8 @@
     style="@style/Widget.Material3.CardView.Elevated"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="12dp"
-    app:cardCornerRadius="40dp"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="24dp"
     app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,14 +35,15 @@
             android:layout_marginHorizontal="8dp"
             android:ellipsize="end"
             android:gravity="center"
-            android:maxLines="2"
-            android:minLines="2"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:minLines="1"
             android:textAppearance="@style/TextAppearance.Cuisine.TitleMedium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/type_image"
-            tools:text="Spaghetti\nCarbonara" />
+            tools:text="Spaghetti Carbonara" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

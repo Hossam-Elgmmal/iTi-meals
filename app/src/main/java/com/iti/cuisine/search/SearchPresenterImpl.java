@@ -318,7 +318,9 @@ public class SearchPresenterImpl implements SearchPresenter {
     }
 
     private void listenToLoading() {
-        loadingDisposable = showLoading.subscribe(show -> {
+        loadingDisposable = showLoading
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(show -> {
             if (view != null) {
                 if (show) {
                     view.showLoading();

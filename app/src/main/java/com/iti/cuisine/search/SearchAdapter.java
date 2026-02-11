@@ -25,6 +25,8 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private Consumer<SearchItem> onMealClicked;
 
+    private int spanSize = 2;
+
     private static final DiffUtil.ItemCallback<SearchItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<>() {
         @Override
         public boolean areItemsTheSame(@NonNull SearchItem oldItem, @NonNull SearchItem newItem) {
@@ -78,6 +80,19 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemViewType(int position) {
         return differ.getCurrentList().get(position).getType();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return differ.getCurrentList().get(position).hashCode();
+    }
+
+    public void setSpanSize(int spanSize) {
+        this.spanSize = spanSize;
+    }
+
+    public int getSpanSize() {
+        return spanSize;
     }
 
     public static class TypeViewHolder extends RecyclerView.ViewHolder implements CuisineViewHolder {

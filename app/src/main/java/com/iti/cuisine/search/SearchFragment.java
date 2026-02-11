@@ -10,7 +10,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -64,7 +63,6 @@ public class SearchFragment extends Fragment implements SearchPresenter.SearchVi
     private Button btnClearSelectedItem;
 
     private LottieAnimationView lottieAnimation;
-    private RecyclerView searchRecyclerView;
 
     private SearchAdapter searchAdapter;
 
@@ -115,26 +113,21 @@ public class SearchFragment extends Fragment implements SearchPresenter.SearchVi
 
         lottieAnimation = view.findViewById(R.id.lottieAnimation);
 
-        searchRecyclerView = view.findViewById(R.id.searchRecyclerView);
+        RecyclerView searchRecyclerView = view.findViewById(R.id.searchRecyclerView);
 
-        GridLayoutManager layoutManager =
-                new GridLayoutManager(requireContext(), 2);
-
+        GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                int type = searchAdapter.getItemViewType(position);
-
-                if (type == SearchItem.ViewType.MEAL_SEARCH.getType()) {
-                    return 2;
-                }
-                return 1;
+                if (position == RecyclerView.NO_POSITION) return 1;
+                return searchAdapter.getSpanSize();
             }
         });
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setOrientation(GridLayoutManager.VERTICAL);
         searchRecyclerView.setLayoutManager(layoutManager);
 
         searchAdapter = new SearchAdapter();
+        searchAdapter.setHasStableIds(true);
         searchRecyclerView.setAdapter(searchAdapter);
 
         presenterHost = (PresenterHost) requireActivity();
@@ -168,13 +161,21 @@ public class SearchFragment extends Fragment implements SearchPresenter.SearchVi
             navigateToMealDetailScreen(searchItem.getId());
         });
         searchAdapter.setOnTypeClicked(searchItem -> {
-            toggleSearchType.setEnabled(false);
+            enableChip(false);
             presenter.setSelectedItem(searchItem);
+            searchEditText.setText("");
         });
         btnClearSelectedItem.setOnClickListener(v -> {
-            toggleSearchType.setEnabled(true);
+            enableChip(true);
             presenter.clearSelectedItem();
+            searchEditText.setText("");
         });
+    }
+    void enableChip(boolean isEnabled) {
+
+        for (int i = 0; i < toggleSearchType.getChildCount(); i++) {
+            toggleSearchType.getChildAt(i).setEnabled(isEnabled);
+        }
     }
 
     private void initializingSelectedItem() {
@@ -275,6 +276,11 @@ public class SearchFragment extends Fragment implements SearchPresenter.SearchVi
             lottieAnimation.setVisibility(View.VISIBLE);
         } else {
             lottieAnimation.setVisibility(View.GONE);
+            if (searchItems.get(0).getType() == SearchItem.ViewType.MEAL_SEARCH.getType()) {
+                searchAdapter.setSpanSize(2);
+            } else {
+                searchAdapter.setSpanSize(1);
+            }
         }
         searchAdapter.setSearchItems(searchItems);
     }

@@ -21,7 +21,7 @@
             android:layout_height="300dp"
             android:fitsSystemWindows="true"
             app:contentScrim="@null"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:statusBarScrim="@null">
 
             <ImageView

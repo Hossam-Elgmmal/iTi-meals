@@ -8,7 +8,7 @@ public class SearchMealMapper {
         return new SearchItem(
                 dto.getId(),
                 dto.getTitle(),
-                dto.getThumbnail() + "/large",
+                dto.getThumbnail() + "/Medium",
                 SearchItem.ViewType.MEAL_SEARCH
         );
     }
