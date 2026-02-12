@@ -210,6 +210,13 @@ public class MealDetailsFragment extends Fragment implements MealDetailsPresente
     }
 
     private void addToPlan(MealEntity mealEntity) {
+
+        boolean isGuest = presenter.isUserGuest();
+        if (isGuest) {
+            showMessage(R.string.you_re_in_guest_mode_sign_in_to_save_your_favorites_and_meal_plans);
+            return;
+        }
+
         long today = MaterialDatePicker.todayInUtcMilliseconds();
 
         CalendarConstraints constraints = new CalendarConstraints.Builder()

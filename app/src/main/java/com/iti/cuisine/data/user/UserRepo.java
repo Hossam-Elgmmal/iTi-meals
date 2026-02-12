@@ -11,7 +11,8 @@ import io.reactivex.rxjava3.core.Single;
 
 public interface UserRepo {
 
-    Observable<UserData> getUser();
+    Observable<UserData> getUserObservable();
+    UserData getUserData();
     Completable uploadData(List<FavoriteMealEntity> favorites, List<PlanMealEntity> plannedMeals);
     Single<FireUser> getFireUser();
 }

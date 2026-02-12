@@ -24,6 +24,7 @@ public interface MealDetailsPresenter extends Presenter {
         void showConfirmPlanDialog(MealEntity mealEntity, long longDate, String formattedDate, Map<MealType, PlanMealEntity> meals);
     }
 
+    boolean isUserGuest();
     void toggleFavorite(MealEntity mealEntity);
     void getPlanMealsByDateAndShowConfirmDialog(MealEntity mealEntity, long date);
     void saveMealToPlan(MealEntity mealEntity, MealType mealType, long date);

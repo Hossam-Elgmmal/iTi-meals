@@ -77,7 +77,7 @@ public class ProfilePresenterImpl implements ProfilePresenter {
     }
 
     private void listenToUserData() {
-        userDataDisposable = userRepo.getUser()
+        userDataDisposable = userRepo.getUserObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         user -> {

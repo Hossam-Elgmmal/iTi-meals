@@ -20,7 +20,7 @@ public class UserRepoImpl implements UserRepo {
     private final String USERS = "users";
 
     @Override
-    public Observable<UserData> getUser() {
+    public Observable<UserData> getUserObservable() {
         return Observable.create(emitter -> {
             FirebaseAuth auth = FirebaseAuth.getInstance();
 
@@ -42,6 +42,22 @@ public class UserRepoImpl implements UserRepo {
             listener.onAuthStateChanged(auth);
             emitter.setCancellable(() -> auth.removeAuthStateListener(listener));
         });
+    }
+
+    @Override
+    public UserData getUserData() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user == null) {
+            return new UserData("", "", "", true);
+        } else {
+            return new UserData(
+                    user.getUid(),
+                    user.getDisplayName() != null ? user.getDisplayName() : "",
+                    user.getEmail() != null ? user.getEmail() : "",
+                    user.isAnonymous()
+            );
+        }
     }
 
     @Override

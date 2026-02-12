@@ -19,6 +19,9 @@ import com.iti.cuisine.data.meal.MealErrorResult;
 import com.iti.cuisine.data.meal.MealRepo;
 import com.iti.cuisine.data.meal.MealRepoImpl;
 import com.iti.cuisine.data.ui_models.MealStep;
+import com.iti.cuisine.data.user.UserData;
+import com.iti.cuisine.data.user.UserRepo;
+import com.iti.cuisine.data.user.UserRepoImpl;
 
 import java.util.Date;
 import java.util.Locale;
@@ -44,16 +47,18 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter {
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     private final MealRepo mealRepo;
+    private final UserRepo userRepo;
 
     @Nullable
     private MealDetailsView view;
 
     public static MealDetailsPresenterImpl createNewInstance() {
-        return new MealDetailsPresenterImpl(MealRepoImpl.getInstance());
+        return new MealDetailsPresenterImpl(MealRepoImpl.getInstance(), new UserRepoImpl());
     }
 
-    private MealDetailsPresenterImpl(MealRepo mealRepo) {
+    private MealDetailsPresenterImpl(MealRepo mealRepo,UserRepo userRepo) {
         this.mealRepo = mealRepo;
+        this.userRepo = userRepo;
     }
 
     @Override
@@ -138,7 +143,22 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter {
     }
 
     @Override
+    public boolean isUserGuest() {
+        UserData userData = userRepo.getUserData();
+        return userData.isGuest();
+    }
+
+    @Override
     public void toggleFavorite(MealEntity mealEntity) {
+
+        UserData userData = userRepo.getUserData();
+        if (userData.isGuest()) {
+            if (view != null) {
+                view.showMessage(R.string.you_re_in_guest_mode_sign_in_to_save_your_favorites_and_meal_plans);
+            }
+            return;
+        }
+
         Disposable disposable;
         if (isInFavorite.getValue()) {
             disposable = mealRepo.deleteFavoriteMealById(mealEntity.getId())
