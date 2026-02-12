@@ -7,7 +7,6 @@ public interface LoginPresenter extends Presenter {
 
     interface LoginView extends AuthView {
         void navigateToSignUpScreen();
-        void navigateToForgotPasswordScreen();
         void showEmailError();
         void showPasswordError();
         void removeEmailError();
@@ -18,7 +17,6 @@ public interface LoginPresenter extends Presenter {
     void removeView();
     void onLoginClick(String email, String password);
     void onGoToSignUpClick();
-    void onForgotPasswordClick();
     void onGoogleLoginClick();
     void onGuestLoginClick();
 }

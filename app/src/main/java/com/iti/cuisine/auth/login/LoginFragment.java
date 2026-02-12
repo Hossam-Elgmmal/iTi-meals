@@ -37,7 +37,6 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
     private MaterialButton googleBtn;
     private MaterialButton guestBtn;
     private MaterialTextView registerBtn;
-    private MaterialTextView forgotPasswordBtn;
     private TextInputEditText emailEditText;
     private TextInputEditText passwordEditText;
     private TextInputLayout emailTextInputLayout;
@@ -79,7 +78,6 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
         googleBtn = view.findViewById(R.id.google_btn);
         guestBtn = view.findViewById(R.id.guest_btn);
         registerBtn = view.findViewById(R.id.register_text);
-        forgotPasswordBtn = view.findViewById(R.id.forgot_password_text);
         emailEditText = view.findViewById(R.id.email_edit_text);
         passwordEditText = view.findViewById(R.id.password_edit_text);
         emailTextInputLayout = view.findViewById(R.id.email_text_input_layout);
@@ -99,7 +97,6 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
             presenter.onLoginClick(email, password);
         });
         registerBtn.setOnClickListener(v -> presenter.onGoToSignUpClick());
-        forgotPasswordBtn.setOnClickListener(v -> presenter.onForgotPasswordClick());
         googleBtn.setOnClickListener(v -> presenter.onGoogleLoginClick());
         guestBtn.setOnClickListener(v -> presenter.onGuestLoginClick());
     }
@@ -124,14 +121,6 @@ public class LoginFragment extends Fragment implements LoginPresenter.LoginView 
         Navigation.findNavController(requireView())
                 .navigate(
                         LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
-                );
-    }
-
-    @Override
-    public void navigateToForgotPasswordScreen() {
-        Navigation.findNavController(requireView())
-                .navigate(
-                        LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment()
                 );
     }
 

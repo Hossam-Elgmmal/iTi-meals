@@ -87,13 +87,6 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Override
-    public void onForgotPasswordClick() {
-        if (view != null) {
-            view.navigateToForgotPasswordScreen();
-        }
-    }
-
-    @Override
     public void onGoogleLoginClick() {
         if (view == null) return;
         authHandler.handleGoogleLogin();
