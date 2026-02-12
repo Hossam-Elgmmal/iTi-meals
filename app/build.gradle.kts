@@ -92,11 +92,6 @@ dependencies {
     //lottie
     implementation(libs.lottie)
 
-    //exoplayer
-    implementation(libs.media3.exoplayer)
-    implementation(libs.media3.exoplayer.dash)
-    implementation(libs.media3.ui)
-
     //datastore-preferences
     implementation(libs.datastore.preferences)
     implementation(libs.datastore.preferences.rxjava3)
@@ -104,5 +99,8 @@ dependencies {
     //rxjava
     implementation(libs.rxandroid)
     implementation(libs.rxjava)
+
+    // youtube player
+    implementation(libs.core)
 
 }
