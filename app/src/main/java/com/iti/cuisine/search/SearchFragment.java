@@ -158,6 +158,7 @@ public class SearchFragment extends Fragment implements SearchPresenter.SearchVi
                 }
         );
         searchAdapter.setOnMealClicked(searchItem -> {
+            searchEditText.setText("");
             navigateToMealDetailScreen(searchItem.getId());
         });
         searchAdapter.setOnTypeClicked(searchItem -> {
