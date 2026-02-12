@@ -1,9 +1,21 @@
 package com.iti.cuisine.auth;
 
+import android.util.Log;
+
+import com.iti.cuisine.Constants;
 import com.iti.cuisine.data.auth.AuthRepo;
 import com.iti.cuisine.data.auth.AuthResult;
+import com.iti.cuisine.data.meal.MealRepo;
+import com.iti.cuisine.data.meal.MealRepoImpl;
+import com.iti.cuisine.data.user.FireFavoriteMapper;
+import com.iti.cuisine.data.user.FirePlanMapper;
+import com.iti.cuisine.data.user.UserRepo;
+import com.iti.cuisine.data.user.UserRepoImpl;
+
+import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -67,6 +79,9 @@ public class AuthHandler {
 
     public void executeAuthOperation(Single<AuthResult> authOperation) {
         Disposable disposable = authOperation
+                .flatMap(authResult ->
+                        restoreData().andThen(Single.just(authResult))
+                )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(ignored -> showLoading.onNext(true))
@@ -98,6 +113,9 @@ public class AuthHandler {
         if (view == null) return;
         Disposable disposable = view.getGoogleCredentials()
                 .flatMap(authRepo::signInWithGoogle)
+                .flatMap(authResult ->
+                        restoreData().andThen(Single.just(authResult))
+                )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(ignored -> showLoading.onNext(true))
@@ -115,5 +133,18 @@ public class AuthHandler {
 
     public void destroy() {
         disposables.clear();
+    }
+
+    public Completable restoreData() {
+        UserRepo userRepo = new UserRepoImpl();
+        MealRepo mealRepo = MealRepoImpl.getInstance();
+
+        return userRepo.getFireUser()
+                .flatMapCompletable(user -> mealRepo.saveAllFavoriteMeals(user.getFavorites().stream().map(FireFavoriteMapper::fromFireFavoriteMeal).collect(Collectors.toList()))
+                        .andThen(mealRepo.saveAllPlanMeals(user.getPlannedMeals().stream()
+                                .map(FirePlanMapper::fromFirePlanMeal)
+                                .collect(Collectors.toList()))))
+                .doOnError(e -> Log.e(Constants.TAG, "uploadData: ", e))
+                .onErrorComplete();
     }
 }

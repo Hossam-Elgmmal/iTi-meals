@@ -309,6 +309,55 @@ public class MealRepoImpl implements MealRepo {
                 .subscribeOn(Schedulers.io());
     }
 
+    @Override
+    public Completable deleteAllMeals() {
+        return mealDao.deleteAllMeals()
+                .andThen(favoriteDao.deleteAllFavoriteMeals())
+                .andThen(planMealDao.deleteAllPlanMeals())
+                .andThen(filterMealDao.deleteAllFilterMeals())
+                .andThen(categoryDao.deleteAllCategories())
+                .andThen(countryDao.deleteAllCountries())
+                .andThen(ingredientDao.deleteAllIngredients())
+                .andThen(mealIngredientDao.deleteAllMealIngredients())
+                .onErrorComplete()
+                .subscribeOn(Schedulers.io());
+
+    }
+
+    @Override
+    public Flowable<Integer> getPlanMealCount() {
+        return planMealDao.getPlanMealCount()
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Flowable<Integer> getFavoriteCount() {
+        return favoriteDao.getFavoriteCount()
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Single<List<FavoriteMealEntity>> getSingleAllFavoriteMeal() {
+        return favoriteDao.getSingleAllFavoriteMeal()
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Single<List<PlanMealEntity>> getSingleAllPlanMeal() {
+        return planMealDao.getSingleAllPlanMeal()
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Completable saveAllFavoriteMeals(List<FavoriteMealEntity> list) {
+        return favoriteDao.insertAll(list);
+    }
+
+    @Override
+    public Completable saveAllPlanMeals(List<PlanMealEntity> list) {
+        return  planMealDao.insertAll(list);
+    }
+
     private Completable saveAllIngredientsToDatabase(List<IngredientDto> ingredients) {
         return Completable
                 .fromAction(() -> {

@@ -30,4 +30,6 @@ public interface CategoryDao {
     @Query("DELETE FROM categories WHERE id = :categoryId")
     Completable deleteCategoryById(String categoryId);
 
+    @Query("DELETE FROM categories")
+    Completable deleteAllCategories();
 }

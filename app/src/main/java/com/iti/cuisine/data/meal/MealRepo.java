@@ -60,4 +60,18 @@ public interface MealRepo {
     Single<List<SearchItem>> fetchMealsByIngredient(String title);
 
     Flowable<List<FavoriteMealEntity>> getAllFavoriteMeals();
+
+    Completable deleteAllMeals();
+
+    Flowable<Integer> getPlanMealCount();
+
+    Flowable<Integer> getFavoriteCount();
+
+    Single<List<FavoriteMealEntity>> getSingleAllFavoriteMeal();
+
+    Single<List<PlanMealEntity>> getSingleAllPlanMeal();
+
+    Completable saveAllFavoriteMeals(List<FavoriteMealEntity> list);
+
+    Completable saveAllPlanMeals(List<PlanMealEntity> list);
 }

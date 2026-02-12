@@ -38,5 +38,12 @@ public interface PlanMealDao {
     @Query("DELETE FROM planMeals WHERE mealType = :mealType AND date = :date")
     Completable deletePlanMealById(MealType mealType, long date);
 
+    @Query("DELETE FROM planMeals")
+    Completable deleteAllPlanMeals();
 
+    @Query("SELECT COUNT(*) FROM planMeals")
+    Flowable<Integer> getPlanMealCount();
+
+    @Query("SELECT * FROM planMeals")
+    Single<List<PlanMealEntity>> getSingleAllPlanMeal();
 }

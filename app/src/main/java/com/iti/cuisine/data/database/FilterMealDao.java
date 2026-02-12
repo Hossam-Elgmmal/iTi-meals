@@ -30,4 +30,6 @@ public interface FilterMealDao {
     @Query("DELETE FROM filter_meals WHERE id = :mealId")
     Completable deleteFilterById(String mealId);
 
+    @Query("DELETE FROM filter_meals")
+    Completable deleteAllFilterMeals();
 }

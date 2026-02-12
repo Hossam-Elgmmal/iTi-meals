@@ -1,5 +1,7 @@
 package com.iti.cuisine.data.auth;
 
+import android.util.Log;
+
 import androidx.credentials.exceptions.GetCredentialCancellationException;
 import androidx.credentials.exceptions.GetCredentialException;
 import androidx.credentials.exceptions.NoCredentialException;
@@ -13,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.iti.cuisine.Constants;
 import com.iti.cuisine.R;
 
 import java.net.SocketTimeoutException;
@@ -49,6 +52,9 @@ public enum AuthResult {
     }
 
     public static AuthResult fromException(Throwable error) {
+
+        Log.e(Constants.TAG, "fromException: ", error);
+
         if (error instanceof FirebaseAuthUserCollisionException) {
             return EMAIL_ALREADY_IN_USE;
         } else if (error instanceof FirebaseAuthWeakPasswordException) {

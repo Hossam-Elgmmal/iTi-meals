@@ -33,4 +33,6 @@ public interface MealIngredientDao {
     @Query("DELETE FROM mealIngredients WHERE mealId = :mealId")
     Completable deleteMealIngredientsByMealId(String mealId);
 
+    @Query("DELETE FROM mealIngredients")
+    Completable deleteAllMealIngredients();
 }

@@ -94,4 +94,13 @@
     <string name="profile_data">Profile data</string>
     <string name="stats">Stats</string>
     <string name="back_up_your_data">Back up Your Data</string>
+    <string name="zero">0</string>
+    <string name="actions">Actions</string>
+    <string name="confirm">Confirm</string>
+    <string name="are_you_sure_you_want_to_sign_out">Sign Out?</string>
+    <string name="you_will_lose_all_data_that_hasn_t_been_backed_up">You will lose all data that hasn\'t been backed up</string>
+    <string name="guest">Guest</string>
+    <string name="you_re_in_guest_mode_sign_in_to_save_your_favorites_and_meal_plans">You\'re in guest mode. Sign in to save your favorites and meal plans</string>
+    <string name="data_uploaded_successfully">Data uploaded successfully</string>
+    <string name="dialog_icon">Dialog Icon</string>
 </resources>

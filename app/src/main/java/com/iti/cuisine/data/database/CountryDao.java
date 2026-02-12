@@ -30,4 +30,6 @@ public interface CountryDao {
     @Query("DELETE FROM countries WHERE title = :title")
     Completable deleteCountryByTitle(String title);
 
+    @Query("DELETE FROM countries")
+    Completable deleteAllCountries();
 }

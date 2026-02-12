@@ -11,6 +11,7 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface FavoriteDao {
@@ -30,4 +31,12 @@ public interface FavoriteDao {
     @Query("DELETE FROM favoriteMeals WHERE id = :mealId")
     Completable deleteFavoriteMealById(String mealId);
 
+    @Query("DELETE FROM favoriteMeals")
+    Completable deleteAllFavoriteMeals();
+
+    @Query("SELECT COUNT(*) FROM favoriteMeals")
+    Flowable<Integer> getFavoriteCount();
+
+    @Query("SELECT * FROM favoriteMeals")
+    Single<List<FavoriteMealEntity>> getSingleAllFavoriteMeal();
 }
