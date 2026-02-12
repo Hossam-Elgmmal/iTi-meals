@@ -42,7 +42,7 @@ public class SplashPresenterImpl implements SplashPresenter {
 
     private void startTimer() {
         disposable.add(
-                Completable.timer(3500, TimeUnit.MILLISECONDS)
+                Completable.timer(3000, TimeUnit.MILLISECONDS)
                         .subscribe(
                                 () -> shouldNavigate.onNext(true)
                         )
